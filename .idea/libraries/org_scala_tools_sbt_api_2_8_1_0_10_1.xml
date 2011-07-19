@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.scala-tools.sbt_api_2.8.1_0.10.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-tools.sbt/api_2.8.1/jars/api_2.8.1-0.10.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
