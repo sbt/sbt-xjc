@@ -7,7 +7,7 @@
         <option name="compilerLibraryName" value="scala-2.8.1" />
       </configuration>
     </facet>
-  </component>k
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/../target/scala-2.8.1.final/classes" />
     <output-test url="file://$MODULE_DIR$/../target/scala-2.8.1.final/test-classes" />
