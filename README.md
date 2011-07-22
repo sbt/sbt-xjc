@@ -24,7 +24,7 @@ replace with `Test` to configure that scope.
     <th>Key</th><th>Type</th><th>Default</th><th>Description</th>
   </tr>
   <tr>
-    <td>`xjcLibs`</td><td>Seq[ModuleId]</td><td>`jaxb-api` 2.1, `jaxb-impl` and `jaxb-xjc` 2.1.9</td><td>The artifacts to download to run XJC</td>
+    <td><span>`xjcLibs`</span></td><td>Seq[ModuleId]</td><td>`jaxb-api` 2.1, `jaxb-impl` and `jaxb-xjc` 2.1.9</td><td>The artifacts to download to run XJC</td>
   </tr>
   <tr>
     <td>`xjcPlugins`</td><td>Seq[ModuleId]</td><td></td><td>The artifacts containing XJC plugin(s)</td>
