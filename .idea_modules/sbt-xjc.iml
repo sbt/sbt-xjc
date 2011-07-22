@@ -1,0 +1,63 @@
+<module type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="scala" name="Scala">
+      <configuration>
+        <option value="Project" name="compilerLibraryLevel"></option>
+        <option value="scala-2.8.1" name="compilerLibraryName"></option>
+      </configuration>
+    </facet>
+  </component>
+  <component inherit-compiler-output="false" name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../target/scala-2.8.1.final/classes"></output>
+    <output-test url="file://$MODULE_DIR$/../target/scala-2.8.1.final/test-classes"></output-test>
+    <exclude-output></exclude-output>
+    <content url="file:///Users/jason/code/sbt-xjc">
+      <sourceFolder isTestSource="false" url="file://$MODULE_DIR$/../src/main/scala"></sourceFolder>
+      <sourceFolder isTestSource="false" url="file://$MODULE_DIR$/../src/main/java"></sourceFolder>
+      <sourceFolder isTestSource="false" url="file://$MODULE_DIR$/../src/main/resources"></sourceFolder>
+      <sourceFolder isTestSource="true" url="file://$MODULE_DIR$/../src/test/scala"></sourceFolder>
+      <sourceFolder isTestSource="true" url="file://$MODULE_DIR$/../src/test/java"></sourceFolder>
+      <sourceFolder isTestSource="true" url="file://$MODULE_DIR$/../src/test/resources"></sourceFolder>
+      <excludeFolder url="file://$MODULE_DIR$/../target"></excludeFolder>
+    </content>
+    <orderEntry type="inheritedJdk"></orderEntry>
+    <orderEntry type="sourceFolder" forTests="false"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_sbt_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_main_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_actions_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_classfile_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_io_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_control_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-lang_scala-library_2.8.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_interface_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_logging_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_process_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_classpath_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_launcher-interface_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-lang_scala-compiler_2.8.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_incremental-compiler_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_collections_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_api_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_persist_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbinary_sbinary_2.8.1_0.4.0" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_compile_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_ivy_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.apache.ivy_ivy_2.2.0" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="com.jcraft_jsch_0.1.31" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="commons-httpclient_commons-httpclient_3.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="commons-logging_commons-logging_1.0.4" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="commons-codec_commons-codec_1.2" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_completion_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="jline_jline_0.9.94" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_discovery_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_run_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_task-system_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_tasks_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_tracking_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_cache_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_testing_2.8.1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.testing_test-interface_0.5" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_compiler-interface_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+    <orderEntry name="org.scala-tools.sbt_precompiled-2_9_0-1_0.10.1" type="library" level="project" scope="PROVIDED"></orderEntry>
+  </component>
+</module>
