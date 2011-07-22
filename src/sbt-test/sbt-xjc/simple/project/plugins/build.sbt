@@ -1,1 +1,1 @@
-libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.1-SNAPSHOT"
+libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.1"
