@@ -4,24 +4,26 @@ import sbt._
 import Keys._
 import sbt.Fork.ForkJava
 import java.io.File
-import xsbti.api.Val
 
 /**
  * Compile Xml Schemata with JAXB XJC.
  */
-// TODO Add 'xjc' scope and reuse SBT keys, where appropriate.
 // TODO Could we support compile both test and compile schema?
 object SbtXjcPlugin {
-  val xjcConfig       = config("xjc").hide
-  val xjcPluginConfig = config("xjc-plugin").hide
+  /** The main scope for this plugin, used to mark the library dependencies on the XJC compiler, and to scope tasks and settings */
+  val Xjc       = config("xjc").hide
 
-  val xsdCompile      = TaskKey[Seq[File]]("xsd-compile", "Compiles XML Schema file(s) with XJC to generated Java sources")
+  /** An Ivy scope for XJC compiler plugins, such as the Fluent API plugin */
+  val XjcPlugin = config("xjc-plugin").hide
+
   val xjcLibs         = SettingKey[Seq[ModuleID]]("xjc-libs", "Core XJC libraries")
   val xjcPlugins      = SettingKey[Seq[ModuleID]]("xjc-plugins", "Plugins for XJC code generation")
-  val xjcSources      = SettingKey[Seq[File]]("xjc-sources", "Source XSD files")
   val xjcCommandLine  = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
-  val xjcGenerated    = SettingKey[(File => Seq[File])]("xjc-generataed", "A function to locate generated Java files, relative to the given ")
-  val xjcClean        = TaskKey[Unit]("xjc-clean", "Cleans XJC generated sources")
+  val xjcCompile      = TaskKey[Seq[File]]("xjc-compile", "Generate JAXB Java sources from XSD files(s)")
+  // Other configuration:
+  // sources in Xjc        The XSD files compiled by XSJ
+  // sourceManaged in Xjc  The output directory for generated Java files.
+
 
   /** Settings to enable the Fluent API plugin, that provides `withXxx` methods, in addition to `getXxx` and `setXxx`
    *  Requires this resolver http://download.java.net/maven/2/
@@ -33,7 +35,7 @@ object SbtXjcPlugin {
 
   /** Main settings to enable XSD compilation */
   val xjcSettings     = Seq[Project.Setting[_]](
-    ivyConfigurations ++= Seq(xjcConfig, xjcPluginConfig),
+    ivyConfigurations ++= Seq(Xjc, XjcPlugin),
     xjcCommandLine    := Seq(),
     xjcPlugins        := Seq(),
     xjcLibs           := Seq(
@@ -42,20 +44,19 @@ object SbtXjcPlugin {
       "javax.xml.bind" % "jaxb-api" % "2.1"
     ),
 
-    xjcSources in Compile       <<= (unmanagedResourceDirectories in Compile){ (sm: Seq[File]) => sm.flatMap(s => (s ** "*.xsd").get) },
-    libraryDependencies         <++= (xjcLibs){ _.map(_ % xjcConfig.name) },
-    libraryDependencies         <++= (xjcPlugins){ _.map(_ % xjcPluginConfig.name) },
-    sourceManaged in xsdCompile <<= sourceManaged(_ / "xjc"),
-    sourceGenerators in Compile <+= xsdCompile.identity,
-    xjcClean <<= (sourceManaged in xsdCompile, streams).map {
+    sources in Xjc              <<= (unmanagedResourceDirectories in Compile).map{ (sm: Seq[File]) => sm.flatMap(s => (s ** "*.xsd").get) },
+    libraryDependencies         <++= (xjcLibs){ _.map(_ % Xjc.name) },
+    libraryDependencies         <++= (xjcPlugins){ _.map(_ % XjcPlugin.name) },
+    sourceManaged in Xjc        <<= sourceManaged(_ / "xjc"),
+    sourceGenerators in Compile <+= xjcCompile.identity,
+    clean in Xjc                <<= (sourceManaged in Xjc, streams).map {
       (sm, s) =>
         val filesToDelete = (sm ** "*").get
         s.log.debug("Cleaning: " + filesToDelete)
         IO.delete(filesToDelete)
     },
-    clean <<= (clean).dependsOn(xjcClean),
-    xsdCompile <<= (javaHome, classpathTypes in xsdCompile, update, xjcSources in Compile,
-            sourceManaged in xsdCompile, xjcCommandLine, streams).map(xjcCompile)
+    clean <<= (clean).dependsOn(clean in Xjc),
+    xjcCompile <<= (javaHome, classpathTypes in Xjc, update, sources in Xjc, sourceManaged in Xjc, xjcCommandLine, streams).map(xjcCompile)
   )
 
   private def xjcCompile(javaHome: Option[File], classpathTypes: Set[String], updateReport: UpdateReport,
@@ -72,17 +73,17 @@ object SbtXjcPlugin {
     }
 
     lazy val options: Seq[String] = {
-      val sep = File.pathSeparator
+      import File.pathSeparator
       def jars(config: Configuration): Seq[File] = Classpaths.managedJars(config, classpathTypes, updateReport).map(_.data)
-      val pluginJars      = jars(xjcPluginConfig)
-      val mainJars        = jars(xjcConfig)
-      val jvmCpOptions    = Seq("-classpath", mainJars.mkString(sep))
+      val pluginJars      = jars(XjcPlugin)
+      val mainJars        = jars(Xjc)
+      val jvmCpOptions    = Seq("-classpath", mainJars.mkString(pathSeparator))
       val xsdSourcePaths  = xjcSources.map(_.getAbsolutePath)
       val pluginCpOptions = pluginJars match {
         case Seq() => Seq()
-        case js    => Seq("-classpath", js.mkString(sep))
+        case js    => Seq("-extension", "-classpath", js.mkString(pathSeparator))
       }
-      val appOptions = Seq("-extension") ++ pluginCpOptions ++ Seq("-d", sourceManaged.getAbsolutePath)
+      val appOptions = pluginCpOptions ++ Seq("-d", sourceManaged.getAbsolutePath)
       val mainClass  = "com.sun.tools.xjc.XJCFacade"
 
       jvmCpOptions ++ List(mainClass) ++ appOptions ++ cl ++ xsdSourcePaths
@@ -90,15 +91,11 @@ object SbtXjcPlugin {
 
     if (shouldProcess) {
       sourceManaged.mkdirs()
-      // Workaround for SOE in IntelliJ, scalap should use _root_.scala.Option to disambiguate from Fork.java.
-      type ForkApply = {def apply(x: Option[File], opts: Seq[String], log: Logger): Int}
-      val forkJava = (Fork.java.asInstanceOf[ForkApply])
+      s.log.debug("XJC java command line: " + options.mkString("\n"))
       val returnCode = (new ForkJava("java")).apply(javaHome, options, s.log)
-
-      s.log.debug("XJC java command linee: " + options.mkString("\n"))
-      if (returnCode != 0) error("Failed: %d".format(returnCode))
+      if (returnCode != 0) error("Non zero return code from xjc [%d]".format(returnCode))
     } else {
-      s.log.info("No sources newer than products, skipping.")
+      s.log.debug("No sources newer than products, skipping.")
     }
 
     generated
