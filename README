@@ -5,7 +5,7 @@
 Depend on the plugin: `./project/plugins/build.sbt`
 
 ```
-resolvers += "retronym" at "http://retronym.github.com/maven2"
+resolvers += "retronym" at "http://retronym.github.com/repo/releases"
 libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.1-SNAPSHOT"
 ```
 
