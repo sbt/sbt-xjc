@@ -8,22 +8,31 @@ import java.io.File
 /**
  * Compile Xml Schemata with JAXB XJC.
  */
-// TODO Could we support compile both test and compile schema?
 object SbtXjcPlugin {
-  /** The main scope for this plugin, used to mark the library dependencies on the XJC compiler, and to scope tasks and settings */
-  val Xjc       = config("xjc").hide
+  /** An Ivy scope for the XJC compiler */
+  val XjcTool   = config("xjc-tool").hide
 
   /** An Ivy scope for XJC compiler plugins, such as the Fluent API plugin */
   val XjcPlugin = config("xjc-plugin").hide
 
-  val xjcLibs         = SettingKey[Seq[ModuleID]]("xjc-libs", "Core XJC libraries")
-  val xjcPlugins      = SettingKey[Seq[ModuleID]]("xjc-plugins", "Plugins for XJC code generation")
-  val xjcCommandLine  = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
-  val xjcCompile      = TaskKey[Seq[File]]("xjc-compile", "Generate JAXB Java sources from XSD files(s)")
-  // Other configuration:
-  // sources in Xjc        The XSD files compiled by XSJ
-  // sourceManaged in Xjc  The output directory for generated Java files.
+  val xjc            = TaskKey[Seq[File]]("xjc", "Generate JAXB Java sources from XSD files(s)")
+  val xjcLibs        = SettingKey[Seq[ModuleID]]("xjc-libs", "Core XJC libraries")
+  val xjcPlugins     = SettingKey[Seq[ModuleID]]("xjc-plugins", "Plugins for XJC code generation")
+  val xjcCommandLine = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
 
+  /** Main settings to enable XSD compilation */
+  val xjcSettings     = Seq[Project.Setting[_]](
+    ivyConfigurations ++= Seq(XjcTool, XjcPlugin),
+    xjcCommandLine    := Seq(),
+    xjcPlugins        := Seq(),
+    xjcLibs           := Seq(
+      "javax.xml.bind" % "jaxb-api" % "2.1",
+      "com.sun.xml.bind" % "jaxb-impl" % "2.1.9",
+      "com.sun.xml.bind" % "jaxb-xjc" % "2.1.9"
+    ),
+    libraryDependencies <++= (xjcLibs)(_.map(_ % XjcTool.name)),
+    libraryDependencies <++= (xjcPlugins)(_.map(_ % XjcPlugin.name))
+  ) ++ inConfig(Test)(xjcSettings0) ++ inConfig(Compile)(xjcSettings0)
 
   /** Settings to enable the Fluent API plugin, that provides `withXxx` methods, in addition to `getXxx` and `setXxx`
    *  Requires this resolver http://download.java.net/maven/2/
@@ -33,30 +42,14 @@ object SbtXjcPlugin {
     xjcCommandLine += "-Xfluent-api"
   )
 
-  /** Main settings to enable XSD compilation */
-  val xjcSettings     = Seq[Project.Setting[_]](
-    ivyConfigurations ++= Seq(Xjc, XjcPlugin),
-    xjcCommandLine    := Seq(),
-    xjcPlugins        := Seq(),
-    xjcLibs           := Seq(
-      "com.sun.xml.bind" % "jaxb-impl" % "2.1.9",
-      "com.sun.xml.bind" % "jaxb-xjc" % "2.1.9",
-      "javax.xml.bind" % "jaxb-api" % "2.1"
-    ),
-
-    sources in Xjc              <<= (unmanagedResourceDirectories in Compile).map{ (sm: Seq[File]) => sm.flatMap(s => (s ** "*.xsd").get) },
-    libraryDependencies         <++= (xjcLibs){ _.map(_ % Xjc.name) },
-    libraryDependencies         <++= (xjcPlugins){ _.map(_ % XjcPlugin.name) },
-    sourceManaged in Xjc        <<= sourceManaged(_ / "xjc"),
-    sourceGenerators in Compile <+= xjcCompile.identity,
-    clean in Xjc                <<= (sourceManaged in Xjc, streams).map {
-      (sm, s) =>
-        val filesToDelete = (sm ** "*").get
-        s.log.debug("Cleaning: " + filesToDelete)
-        IO.delete(filesToDelete)
-    },
-    clean <<= (clean).dependsOn(clean in Xjc),
-    xjcCompile <<= (javaHome, classpathTypes in Xjc, update, sources in Xjc, sourceManaged in Xjc, xjcCommandLine, streams).map(xjcCompile)
+  private def xjcSettings0 = Seq[Project.Setting[_]](
+    sources in xjc       <<= unmanagedResourceDirectories.map((sm: Seq[File]) => sm.flatMap(s => (s ** "*.xsd").get)),
+    sourceManaged in xjc <<= (sourceManaged, configuration)((sm, conf) => sm / conf.name / "xjc"),
+    xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
+                              sourceManaged in xjc, xjcCommandLine, streams).map(xjcCompile),
+    sourceGenerators     <+= xjc.identity,
+    clean in xjc         <<= (sourceManaged in xjc, streams).map(xjcClean),
+    clean                <<= clean.dependsOn(clean in xjc)
   )
 
   private def xjcCompile(javaHome: Option[File], classpathTypes: Set[String], updateReport: UpdateReport,
@@ -76,7 +69,7 @@ object SbtXjcPlugin {
       import File.pathSeparator
       def jars(config: Configuration): Seq[File] = Classpaths.managedJars(config, classpathTypes, updateReport).map(_.data)
       val pluginJars      = jars(XjcPlugin)
-      val mainJars        = jars(Xjc)
+      val mainJars        = jars(XjcTool)
       val jvmCpOptions    = Seq("-classpath", mainJars.mkString(pathSeparator))
       val xsdSourcePaths  = xjcSources.map(_.getAbsolutePath)
       val pluginCpOptions = pluginJars match {
@@ -99,5 +92,11 @@ object SbtXjcPlugin {
     }
 
     generated
+  }
+
+  private def xjcClean(sourceManaged: File, s: TaskStreams) {
+    val filesToDelete = (sourceManaged ** "*").get
+    s.log.debug("Cleaning: " + filesToDelete)
+    IO.delete(filesToDelete)
   }
 }
