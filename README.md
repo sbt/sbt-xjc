@@ -9,6 +9,8 @@ resolvers += "retronym" at "http://retronym.github.com/repo/releases"
 libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.1"
 ```
 
+Include the settings from `SbtXjcPlugin.settings`.
+
 Place your XSD files in `./src/main/xsd`, or another configure a custom set of files with `set sources in Xjc := Seq(file("my.xsd"))`
 
 Before compilation, XJC will be invoked to generate sources to `sourceManaged in Xjc`, by default `${target}/src_managed/xjc`.
