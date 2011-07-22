@@ -43,7 +43,7 @@ object SbtXjcPlugin {
   )
 
   private def xjcSettings0 = Seq[Project.Setting[_]](
-    sources in xjc       <<= unmanagedResourceDirectories.map((sm: Seq[File]) => sm.flatMap(s => (s ** "*.xsd").get)),
+    sources in xjc       <<= unmanagedResourceDirectories.map(dirs => (dirs ** "*.xsd").get),
     sourceManaged in xjc <<= (sourceManaged, configuration)((sm, conf) => sm / conf.name / "xjc"),
     xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
                               sourceManaged in xjc, xjcCommandLine, streams).map(xjcCompile),
@@ -52,8 +52,11 @@ object SbtXjcPlugin {
     clean                <<= clean.dependsOn(clean in xjc)
   )
 
+  /**
+   * @return the .java files in `sourceManaged` after compilation.
+   */
   private def xjcCompile(javaHome: Option[File], classpathTypes: Set[String], updateReport: UpdateReport,
-                         xjcSources: Seq[File], sourceManaged: File, cl: Seq[String], s: TaskStreams): Seq[File] = {
+                         xjcSources: Seq[File], sourceManaged: File, extraCommandLine: Seq[String], s: TaskStreams): Seq[File] = {
     def generated = (sourceManaged ** "*.java").get
 
     val shouldProcess = (xjcSources, generated) match {
@@ -79,7 +82,7 @@ object SbtXjcPlugin {
       val appOptions = pluginCpOptions ++ Seq("-d", sourceManaged.getAbsolutePath)
       val mainClass  = "com.sun.tools.xjc.XJCFacade"
 
-      jvmCpOptions ++ List(mainClass) ++ appOptions ++ cl ++ xsdSourcePaths
+      jvmCpOptions ++ List(mainClass) ++ appOptions ++ extraCommandLine ++ xsdSourcePaths
     }
 
     if (shouldProcess) {
