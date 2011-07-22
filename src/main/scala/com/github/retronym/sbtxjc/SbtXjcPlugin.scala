@@ -98,7 +98,7 @@ object SbtXjcPlugin {
   }
 
   private def xjcClean(sourceManaged: File, s: TaskStreams) {
-    val filesToDelete = (sourceManaged ** "*").get
+    val filesToDelete = (sourceManaged ** "*.java").get
     s.log.debug("Cleaning: " + filesToDelete)
     IO.delete(filesToDelete)
   }
