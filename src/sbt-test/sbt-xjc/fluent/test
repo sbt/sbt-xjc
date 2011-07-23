@@ -1,3 +1,5 @@
 > compile
 > clean
 > compile
+$ touch src/main/resources/xsd/simple.xsd
+> compile
