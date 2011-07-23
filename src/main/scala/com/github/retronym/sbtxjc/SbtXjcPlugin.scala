@@ -46,11 +46,11 @@ object SbtXjcPlugin extends Plugin {
     inConfig(conf)(xjcSettings0) ++ Seq(clean <<= clean.dependsOn(clean in xjc in conf))
 
   /**
-   * Unscoped settings, do not use directly, instead use `inConfig(IntegrationTest)(xjcSettings0)`
+   * Unscoped settings, do not use directly, instead use `xjcSettingsIn(IntegrationTest)`
    */
   private def xjcSettings0 = Seq[Project.Setting[_]](
     sources in xjc       <<= unmanagedResourceDirectories.map(dirs => (dirs ** "*.xsd").get),
-    sourceManaged in xjc <<= (sourceManaged, configuration)((sm, conf) => sm / conf.name / "xjc"),
+    sourceManaged in xjc ~= (_ / "xjc"), // e.g. /target/scala-2.8.1.final/src_managed/main/xjc
     xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
                               sourceManaged in xjc, xjcCommandLine, resolvedScoped, streams).map(xjcCompile),
     sourceGenerators     <+= xjc.identity,
@@ -96,10 +96,10 @@ object SbtXjcPlugin extends Plugin {
       sourceManaged.mkdirs()
       log.info("Compiling %d XSD file(s) in %s".format(xjcSources.size, Project.display(resolvedScoped)))
       log.debug("XJC java command line: " + options.mkString("\n"))
-      val returnCode = (new ForkJava("java")).apply(javaHome, options, streams.log)
+      val returnCode = (new ForkJava("java")).apply(javaHome, options, log)
       if (returnCode != 0) error("Non zero return code from xjc [%d]".format(returnCode))
     } else {
-      streams.log.debug("No sources newer than products, skipping.")
+      log.debug("No sources newer than products, skipping.")
     }
 
     generated
@@ -108,7 +108,7 @@ object SbtXjcPlugin extends Plugin {
   private def xjcClean(sourceManaged: File, resolvedScoped: Project.ScopedKey[_], streams: TaskStreams) {
     import streams.log
     val filesToDelete = (sourceManaged ** "*.java").get
-    log.debug("Cleaning Files:\n%s".format(filesToDelete.mkString("\n")))
+    log.info("Cleaning Files:\n%s".format(filesToDelete.mkString("\n")))
     if (filesToDelete.nonEmpty) {
       log.info("Cleaning %d XJC generated files in %s".format(filesToDelete.size, Project.display(resolvedScoped)))
       IO.delete(filesToDelete)
