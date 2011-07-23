@@ -7,7 +7,7 @@ Depend on the plugin: `./project/plugins/build.sbt`
 ```
 resolvers += "retronym" at "http://retronym.github.com/repo/releases"
 
-libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.2"
+libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.3"
 ```
 
 ### Introduce Settings
