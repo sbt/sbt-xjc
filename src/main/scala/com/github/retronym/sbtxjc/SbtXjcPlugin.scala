@@ -67,8 +67,8 @@ object SbtXjcPlugin extends Plugin {
     def generated = (sourceManaged ** "*.java").get
 
     val shouldProcess = (xjcSources, generated) match {
-      case (Seq(), _) => false
-      case (_, Seq()) => true
+      case (Seq(), _)  => false
+      case (_, Seq())  => true
       case (ins, outs) =>
         val inLastMod = ins.map(_.lastModified()).max
         val outLasMod = outs.map(_.lastModified()).min
@@ -110,7 +110,7 @@ object SbtXjcPlugin extends Plugin {
     val filesToDelete = (sourceManaged ** "*.java").get
     log.debug("Cleaning Files:\n%s".format(filesToDelete.mkString("\n")))
     if (filesToDelete.nonEmpty) {
-      log.info("Cleaning %d XJC generated files in %s".format(filesToDelete.size, Project.display(resolvedScoped)) + filesToDelete)
+      log.info("Cleaning %d XJC generated files in %s".format(filesToDelete.size, Project.display(resolvedScoped)))
       IO.delete(filesToDelete)
     }
   }
