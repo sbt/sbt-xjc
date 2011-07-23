@@ -12,7 +12,7 @@ libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.2"
 
 ### Introduce Settings
 
-Include the settings from `com.github.retronym.SbtXjcPlugin.settings`.
+Include the settings from `com.github.retronym.SbtXjcPlugin.xjcSettings`.
 
 ### Configure
 
