@@ -6,6 +6,7 @@ Depend on the plugin: `./project/plugins/build.sbt`
 
 ```
 resolvers += "retronym" at "http://retronym.github.com/repo/releases"
+
 libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.2"
 ```
 
@@ -27,7 +28,7 @@ replace with `Test` to configure that scope.
     <td>xjcLibs</td><td>Seq[ModuleId]</td><td>jaxb-api 2.1, jaxb-impl and jaxb-xjc 2.1.9</td><td>The artifacts to download to run XJC</td>
   </tr>
   <tr>
-    <td>xjcPlugins</td><td>Seq[ModuleId]</td><td></td><td>The artifacts containing XJC plugin(s)</td>
+    <td>xjcPlugins</td><td>Seq[ModuleId]</td><td></td><td>The artifacts to download containing XJC plugins</td>
   </tr>
   <tr>
     <td>xjcCommandLine</td><td>Seq[String]</td><td></td><td>Additional command line, e.g. -verbose -Xfluent-api</td>
@@ -36,7 +37,7 @@ replace with `Test` to configure that scope.
     <td>sources in (xjc, Compile)</td><td>Seq[File]</td><td>${unmanagedResourceDirectories} ** "*.xsd"</td><td>Input XSD Files</td>
   </tr>
   <tr>
-    <td>sourceManaged in (xjc, Compile)</td><td>`File`</td><td>${sourceManaged}/_compile_/xjc</td><td>Target for generated files. Should not be shared with other generated files</td>
+    <td>sourceManaged in (xjc, Compile)</td><td>`File`</td><td>${sourceManaged}/compile/xjc</td><td>Target for generated files. Should not be shared with other generated files</td>
   </tr>
 </table>
 
