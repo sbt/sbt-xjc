@@ -96,7 +96,7 @@ object SbtXjcPlugin extends Plugin {
       sourceManaged.mkdirs()
       log.info("Compiling %d XSD file(s) in %s".format(xjcSources.size, Project.display(resolvedScoped)))
       log.debug("XJC java command line: " + options.mkString("\n"))
-      val returnCode = (new ForkJava("java")).apply(javaHome, options, log)
+      val returnCode = Forker(javaHome, options, log)
       if (returnCode != 0) error("Non zero return code from xjc [%d]".format(returnCode))
     } else {
       log.debug("No sources newer than products, skipping.")
