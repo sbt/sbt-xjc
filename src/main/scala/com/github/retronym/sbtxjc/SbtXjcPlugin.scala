@@ -108,7 +108,7 @@ object SbtXjcPlugin extends Plugin {
   private def xjcClean(sourceManaged: File, resolvedScoped: Project.ScopedKey[_], streams: TaskStreams) {
     import streams.log
     val filesToDelete = (sourceManaged ** "*.java").get
-    log.info("Cleaning Files:\n%s".format(filesToDelete.mkString("\n")))
+    log.debug("Cleaning Files:\n%s".format(filesToDelete.mkString("\n")))
     if (filesToDelete.nonEmpty) {
       log.info("Cleaning %d XJC generated files in %s".format(filesToDelete.size, Project.display(resolvedScoped)))
       IO.delete(filesToDelete)
