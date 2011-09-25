@@ -53,7 +53,7 @@ object SbtXjcPlugin extends Plugin {
     sourceManaged in xjc ~= (_ / "xjc"), // e.g. /target/scala-2.8.1.final/src_managed/main/xjc
     xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
                               sourceManaged in xjc, xjcCommandLine, resolvedScoped, streams).map(xjcCompile),
-    sourceGenerators     <+= xjc.identity,
+    sourceGenerators     <+= xjc,
     clean in xjc         <<= (sourceManaged in xjc, resolvedScoped, streams).map(xjcClean)
   )
 
@@ -94,10 +94,10 @@ object SbtXjcPlugin extends Plugin {
 
     if (shouldProcess) {
       sourceManaged.mkdirs()
-      log.info("Compiling %d XSD file(s) in %s".format(xjcSources.size, Project.display(resolvedScoped)))
+      log.info("Compiling %d XSD file(s) in %s".format(xjcSources.size, Project.displayFull(resolvedScoped)))
       log.debug("XJC java command line: " + options.mkString("\n"))
       val returnCode = Forker(javaHome, options, log)
-      if (returnCode != 0) error("Non zero return code from xjc [%d]".format(returnCode))
+      if (returnCode != 0) sys.error("Non zero return code from xjc [%d]".format(returnCode))
     } else {
       log.debug("No sources newer than products, skipping.")
     }
@@ -110,7 +110,7 @@ object SbtXjcPlugin extends Plugin {
     val filesToDelete = (sourceManaged ** "*.java").get
     log.debug("Cleaning Files:\n%s".format(filesToDelete.mkString("\n")))
     if (filesToDelete.nonEmpty) {
-      log.info("Cleaning %d XJC generated files in %s".format(filesToDelete.size, Project.display(resolvedScoped)))
+      log.info("Cleaning %d XJC generated files in %s".format(filesToDelete.size, Project.displayFull(resolvedScoped)))
       IO.delete(filesToDelete)
     }
   }

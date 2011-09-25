@@ -1,4 +1,4 @@
-## sbt-xjc An SBT 0.10 Plugin to compile XML Schemata to JAXB Java sources with XJC
+## sbt-xjc An SBT 0.11 Plugin to compile XML Schemata to JAXB Java sources with XJC
 
 ### Usage
 
@@ -7,7 +7,7 @@ Depend on the plugin: `./project/plugins/build.sbt`
 ```
 resolvers += "retronym" at "http://retronym.github.com/repo/releases"
 
-libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.3"
+libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.4"
 ```
 
 ### Introduce Settings
