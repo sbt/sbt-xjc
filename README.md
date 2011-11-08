@@ -39,7 +39,7 @@ replace with `Test` to configure that scope.
   </tr>
   <tr>
     <td>sources in (Compile, xjc)</td><td>Seq[File]</td><td>${unmanagedResourceDirectories} ** "*.xsd"</td><td>Input XSD Files</td>
-    <td>sources in (Compile, xjc) &lt;&lt;= sourceDirectory map (_ / "main" / "schema" ** ".xsd" get)
+    <td>sources in (Compile, xjc) &lt;&lt;= sourceDirectory map (_ / "main" / "schema" ** "*.xsd" get)
 
   </tr>
   <tr>
