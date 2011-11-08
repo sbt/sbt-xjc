@@ -1,4 +1,7 @@
 *.swo
+.lib
+.boot
+.ivy
 *.swp
 lib_managed
 project/boot

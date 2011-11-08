@@ -5,9 +5,9 @@ object build extends Build {
   val sbtXjc = Project(
     id = "sbt-xjc",
     base = file("."),
-    settings = Defaults.defaultSettings ++ ScriptedPlugin.scriptedSettings ++ Seq(
+    settings = Defaults.defaultSettings ++ Seq(
       organization := "com.github.retronym",
-      version := "0.5-SNAPSHOT",
+      version := "0.5",
       sbtPlugin := true,
       publishTo <<= (version) { (v: String) =>
         val repoSuffix = if (v.contains("-SNAPSHOT")) "snapshots" else "releases"
