@@ -2,12 +2,12 @@
 
 ### Usage
 
-Depend on the plugin: `./project/plugins/build.sbt`
+Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.11.0 or 0.11.1 or higher.
 
 ```
 resolvers += "retronym" at "http://retronym.github.com/repo/releases"
 
-libraryDependencies += "com.github.retronym" %% "sbt-xjc" % "0.4"
+addSbtPlugin("com.github.retronym" % "sbt-xjc" % "0.5")
 ```
 
 ### Introduce Settings
