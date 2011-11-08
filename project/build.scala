@@ -7,7 +7,7 @@ object build extends Build {
     base = file("."),
     settings = Defaults.defaultSettings ++ Seq(
       organization := "com.github.retronym",
-      version := "0.5",
+      version := "0.6-SNAPSHOT",
       sbtPlugin := true,
       publishTo <<= (version) { (v: String) =>
         val repoSuffix = if (v.contains("-SNAPSHOT")) "snapshots" else "releases"
