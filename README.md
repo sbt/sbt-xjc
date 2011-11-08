@@ -39,12 +39,13 @@ replace with `Test` to configure that scope.
   </tr>
   <tr>
     <td>sources in (Compile, xjc)</td><td>Seq[File]</td><td>${unmanagedResourceDirectories} ** "*.xsd"</td><td>Input XSD Files</td>
-    <td></td>
+    <td>sources in (Compile, xjc) &lt;&lt;= sourceDirectory map (_ / "main" / "schema" ** ".xsd" get)
+
   </tr>
   <tr>
     <td>sourceManaged in (Compile, xjc)</td><td>File</td><td>${sourceManaged}/compile/xjc</td>
     <td>Target for generated files. Should not be shared with other generated files</td>
-    <td>sources in (Compile, xjc) &lt;&lt;= sourceDirectory map (_ / "main" / "schema" ** ".xsd" get)
+    <td></td>    
   </tr>
 </table>
 
