@@ -39,7 +39,7 @@ replace with `Test` to configure that scope.
   <tr>
     <td>sourceManaged in (Compile, xjc)</td><td>File</td><td>${sourceManaged}/compile/xjc</td>
     <td>Target for generated files. Should not be shared with other generated files</td>
-    <td>sources in (Compile, xjc) &lt;&lt;<= sourceDirectory map (_ / "main" / "schema" ** ".xsd" get)
+    <td>sources in (Compile, xjc) &lt;&lt;= sourceDirectory map (_ / "main" / "schema" ** ".xsd" get)
   </tr>
 </table>
 
