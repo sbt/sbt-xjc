@@ -12,7 +12,7 @@ addSbtPlugin("com.github.retronym" % "sbt-xjc" % "0.5")
 
 ### Introduce Settings
 
-Include the settings from `com.github.retronym.SbtXjcPlugin.xjcSettings`.
+Include the settings from `com.github.retronym.sbtxjc.SbtXjcPlugin.xjcSettings`.
 
 ### Configure
 
