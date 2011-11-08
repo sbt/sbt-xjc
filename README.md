@@ -25,16 +25,21 @@ replace with `Test` to configure that scope.
     <th>Key</th><th>Type</th><th>Default</th><th>Description</th><th>Example</th>
   </tr>
   <tr>
-    <td>xjcLibs</td><td>Seq[ModuleId]</td><td>jaxb-api 2.1, jaxb-impl and jaxb-xjc 2.1.9</td><td>The artifacts to download to run XJC</td>
+    <td>xjcLibs</td><td>Seq[ModuleId]</td><td>jaxb-api 2.1, jaxb-impl and jaxb-xjc 2.1.9</td>
+    <td>The artifacts to download to run XJC</td>
+    <td></td>
   </tr>
   <tr>
     <td>xjcPlugins</td><td>Seq[ModuleId]</td><td></td><td>The artifacts to download containing XJC plugins</td>
+    <td></td>
   </tr>
   <tr>
     <td>xjcCommandLine</td><td>Seq[String]</td><td></td><td>Additional command line, e.g. -verbose -Xfluent-api</td>
+    <td></td>
   </tr>
   <tr>
     <td>sources in (Compile, xjc)</td><td>Seq[File]</td><td>${unmanagedResourceDirectories} ** "*.xsd"</td><td>Input XSD Files</td>
+    <td></td>
   </tr>
   <tr>
     <td>sourceManaged in (Compile, xjc)</td><td>File</td><td>${sourceManaged}/compile/xjc</td>
