@@ -15,7 +15,7 @@ addSbtPlugin("com.github.retronym" % "sbt-xjc" % "0.5")
 
 ### Introduce Settings
 
-Include the settings from `com.github.retronym.SbtXjcPlugin.xjcSettings`.
+Include the settings from `com.github.retronym.sbtxjc.SbtXjcPlugin.xjcSettings`.
 
 ### Configure
 
@@ -25,22 +25,30 @@ replace with `Test` to configure that scope.
 
 <table>
   <tr>
-    <th>Key</th><th>Type</th><th>Default</th><th>Description</th>
+    <th>Key</th><th>Type</th><th>Default</th><th>Description</th><th>Example</th>
   </tr>
   <tr>
-    <td>xjcLibs</td><td>Seq[ModuleId]</td><td>jaxb-api 2.1, jaxb-impl and jaxb-xjc 2.1.9</td><td>The artifacts to download to run XJC</td>
+    <td>xjcLibs</td><td>Seq[ModuleId]</td><td>jaxb-api 2.1, jaxb-impl and jaxb-xjc 2.1.9</td>
+    <td>The artifacts to download to run XJC</td>
+    <td></td>
   </tr>
   <tr>
     <td>xjcPlugins</td><td>Seq[ModuleId]</td><td></td><td>The artifacts to download containing XJC plugins</td>
+    <td></td>
   </tr>
   <tr>
     <td>xjcCommandLine</td><td>Seq[String]</td><td></td><td>Additional command line, e.g. -verbose -Xfluent-api</td>
+    <td></td>
   </tr>
   <tr>
-    <td>sources in (xjc, Compile)</td><td>Seq[File]</td><td>${unmanagedResourceDirectories} ** "*.xsd"</td><td>Input XSD Files</td>
+    <td>sources in (Compile, xjc)</td><td>Seq[File]</td><td>${unmanagedResourceDirectories} ** "*.xsd"</td><td>Input XSD Files</td>
+    <td>sources in (Compile, xjc) &lt;&lt;= sourceDirectory map (_ / "main" / "schema" ** "*.xsd" get)
+
   </tr>
   <tr>
-    <td>sourceManaged in (xjc, Compile)</td><td>File</td><td>${sourceManaged}/compile/xjc</td><td>Target for generated files. Should not be shared with other generated files</td>
+    <td>sourceManaged in (Compile, xjc)</td><td>File</td><td>${sourceManaged}/compile/xjc</td>
+    <td>Target for generated files. Should not be shared with other generated files</td>
+    <td></td>    
   </tr>
 </table>
 
