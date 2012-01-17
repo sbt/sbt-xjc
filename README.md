@@ -2,12 +2,15 @@
 
 ### Usage
 
-Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.11.0 or 0.11.1 or higher.
+Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.11.2 or higher.
 
 ```
-resolvers += "retronym" at "http://retronym.github.com/repo/releases"
+resolvers += Resolver.url(
+  "sbt-plugin-releases", 
+  new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/")
+)(Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.github.retronym" % "sbt-xjc" % "0.5")
+addSbtPlugin("com.github.retronym" % "sbt-xjc" % "0.5") 
 ```
 
 ### Introduce Settings

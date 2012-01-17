@@ -9,11 +9,8 @@ object build extends Build {
       organization := "com.github.retronym",
       version := "0.6-SNAPSHOT",
       sbtPlugin := true,
-      publishTo <<= (version) { (v: String) =>
-        val repoSuffix = if (v.contains("-SNAPSHOT")) "snapshots" else "releases"
-        val resolver = Resolver.file("gh-pages",  new File("/Users/jason/code/retronym.github.com/repo", repoSuffix))
-        Some(resolver)
-      }
+      publishTo := Some(Resolver.url("sbt-plugin-releases", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns)),
+      publishMavenStyle := false
     )
   )
 }
