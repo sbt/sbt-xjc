@@ -6,11 +6,11 @@ object build extends Build {
     id = "sbt-xjc",
     base = file("."),
     settings = Defaults.defaultSettings ++ Seq(
-      organization := "com.github.retronym",
+      organization := "org.scala-sbt.plugins",
       version := "0.6-SNAPSHOT",
       sbtPlugin := true,
       publishTo := Some(Resolver.url("sbt-plugin-releases", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns)),
       publishMavenStyle := false
-    )
+    ) ++ ScriptedPlugin.scriptedSettings
   )
 }

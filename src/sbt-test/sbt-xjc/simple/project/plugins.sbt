@@ -1,1 +1,1 @@
-addSbtPlugin("com.github.retronym" %% "sbt-xjc" % "0.5-SNAPSHOT")
+addSbtPlugin("org.scala-sbt.plugins" %% "sbt-xjc" % "0.6-SNAPSHOT")
