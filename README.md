@@ -2,15 +2,16 @@
 
 ### Usage
 
-Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.11.2 or higher.
+Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.11.2, 0.11.3, or 0.12.
 
 ```
+// Added by default in SBT 0.12
 resolvers += Resolver.url(
-  "sbt-plugin-releases", 
+  "sbt-plugin-releases",
   new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/")
 )(Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.github.retronym" % "sbt-xjc" % "0.5") 
+addSbtPlugin("com.github.retronym" % "sbt-xjc" % "0.5")
 ```
 
 ### Introduce Settings
@@ -48,7 +49,7 @@ replace with `Test` to configure that scope.
   <tr>
     <td>sourceManaged in (Compile, xjc)</td><td>File</td><td>${sourceManaged}/compile/xjc</td>
     <td>Target for generated files. Should not be shared with other generated files</td>
-    <td></td>    
+    <td></td>
   </tr>
 </table>
 
