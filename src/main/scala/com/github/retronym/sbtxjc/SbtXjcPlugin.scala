@@ -52,9 +52,9 @@ object SbtXjcPlugin extends Plugin {
     sources in xjc       <<= unmanagedResourceDirectories.map(dirs => (dirs ** "*.xsd").get),
     sourceManaged in xjc ~= (_ / "xjc"), // e.g. /target/scala-2.8.1.final/src_managed/main/xjc
     xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
-                              sourceManaged in xjc, xjcCommandLine, resolvedScoped, streams).map(xjcCompile),
+                              sourceManaged in xjc, xjcCommandLine, streams).map(xjcCompile),
     sourceGenerators     <+= xjc,
-    clean in xjc         <<= (sourceManaged in xjc, resolvedScoped, streams).map(xjcClean)
+    clean in xjc         <<= (sourceManaged in xjc, streams).map(xjcClean)
   )
 
   /**
@@ -62,7 +62,7 @@ object SbtXjcPlugin extends Plugin {
    */
   private def xjcCompile(javaHome: Option[File], classpathTypes: Set[String], updateReport: UpdateReport,
                          xjcSources: Seq[File], sourceManaged: File, extraCommandLine: Seq[String],
-                         resolvedScoped: Project.ScopedKey[_], streams: TaskStreams): Seq[File] = {
+                         streams: TaskStreams): Seq[File] = {
     import streams.log
     def generated = (sourceManaged ** "*.java").get
 
@@ -94,7 +94,7 @@ object SbtXjcPlugin extends Plugin {
 
     if (shouldProcess) {
       sourceManaged.mkdirs()
-      log.info("Compiling %d XSD file(s) in %s".format(xjcSources.size, Project.displayFull(resolvedScoped)))
+      log.info("Compiling %d XSD file(s) to %s".format(xjcSources.size, sourceManaged.getAbsolutePath))
       log.debug("XJC java command line: " + options.mkString("\n"))
       val returnCode = Forker(javaHome, options, log)
       if (returnCode != 0) sys.error("Non zero return code from xjc [%d]".format(returnCode))
@@ -105,12 +105,12 @@ object SbtXjcPlugin extends Plugin {
     generated
   }
 
-  private def xjcClean(sourceManaged: File, resolvedScoped: Project.ScopedKey[_], streams: TaskStreams) {
+  private def xjcClean(sourceManaged: File, streams: TaskStreams) {
     import streams.log
     val filesToDelete = (sourceManaged ** "*.java").get
     log.debug("Cleaning Files:\n%s".format(filesToDelete.mkString("\n")))
     if (filesToDelete.nonEmpty) {
-      log.info("Cleaning %d XJC generated files in %s".format(filesToDelete.size, Project.displayFull(resolvedScoped)))
+      log.info("Cleaning %d XJC generated files in %s".format(filesToDelete.size, sourceManaged.getAbsolutePath))
       IO.delete(filesToDelete)
     }
   }
