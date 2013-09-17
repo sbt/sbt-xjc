@@ -5,7 +5,7 @@
 Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.12.x or 0.13.x
 
 ```
-addSbtPlugin("com.github.retronym" % "sbt-xjc" % "0.5")
+addSbtPlugin("org.scala-sbt.plugins" % "sbt-xjc" % "0.5")
 ```
 
 ### Introduce Settings

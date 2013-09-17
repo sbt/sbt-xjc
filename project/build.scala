@@ -9,7 +9,7 @@ object build extends Build {
       organization := "org.scala-sbt.plugins",
       version := "0.6-SNAPSHOT",
       sbtPlugin := true,
-      publishTo := Some(Resolver.url("sbt-plugin-releases", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns)),
+      publishTo := Some(Resolver.url("sbt-plugin-releases-publish", new URL("http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns)),
       publishMavenStyle := false
     ) ++ ScriptedPlugin.scriptedSettings
   )
