@@ -2,15 +2,9 @@
 
 ### Usage
 
-Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.11.2, 0.11.3, or 0.12.
+Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.12.x or 0.13.x
 
 ```
-// Added by default in SBT 0.12
-resolvers += Resolver.url(
-  "sbt-plugin-releases",
-  new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/")
-)(Resolver.ivyStylePatterns)
-
 addSbtPlugin("com.github.retronym" % "sbt-xjc" % "0.5")
 ```
 
