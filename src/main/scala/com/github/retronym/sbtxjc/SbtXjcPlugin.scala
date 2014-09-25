@@ -1,9 +1,9 @@
 package com.github.retronym.sbtxjc
 
-import sbt._
-import Keys._
-import sbt.Fork.ForkJava
 import java.io.File
+
+import sbt.Keys._
+import sbt._
 
 /**
  * Compile Xml Schemata with JAXB XJC.
@@ -21,7 +21,7 @@ object SbtXjcPlugin extends Plugin {
   val xjcCommandLine = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
 
   /** Main settings to enable XSD compilation */
-  val xjcSettings     = Seq[Project.Setting[_]](
+  val xjcSettings     = Seq[Def.Setting[_]](
     ivyConfigurations ++= Seq(XjcTool, XjcPlugin),
     xjcCommandLine    := Seq(),
     xjcPlugins        := Seq(),
@@ -37,18 +37,18 @@ object SbtXjcPlugin extends Plugin {
   /** Settings to enable the Fluent API plugin, that provides `withXxx` methods, in addition to `getXxx` and `setXxx`
    *  Requires this resolver http://download.java.net/maven/2/
    **/
-  val fluentApiSettings = Seq[Project.Setting[_]](
+  val fluentApiSettings = Seq[Def.Setting[_]](
     xjcPlugins     += "net.java.dev.jaxb2-commons" % "jaxb-fluent-api" % "2.1.8",
     xjcCommandLine += "-Xfluent-api"
   )
 
-  def xjcSettingsIn(conf: Configuration): Seq[Project.Setting[_]] =
+  def xjcSettingsIn(conf: Configuration): Seq[Def.Setting[_]] =
     inConfig(conf)(xjcSettings0) ++ Seq(clean <<= clean.dependsOn(clean in xjc in conf))
 
   /**
    * Unscoped settings, do not use directly, instead use `xjcSettingsIn(IntegrationTest)`
    */
-  private def xjcSettings0 = Seq[Project.Setting[_]](
+  private def xjcSettings0 = Seq[Def.Setting[_]](
     sources in xjc       <<= unmanagedResourceDirectories.map(dirs => (dirs ** "*.xsd").get),
     sourceManaged in xjc ~= (_ / "xjc"), // e.g. /target/scala-2.8.1.final/src_managed/main/xjc
     xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
