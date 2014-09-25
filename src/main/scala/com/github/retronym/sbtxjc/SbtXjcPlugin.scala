@@ -1,9 +1,9 @@
 package com.github.retronym.sbtxjc
 
-import sbt._
-import Keys._
-import sbt.Fork.ForkJava
 import java.io.File
+
+import sbt.Keys._
+import sbt._
 
 /**
  * Compile Xml Schemata with JAXB XJC.
