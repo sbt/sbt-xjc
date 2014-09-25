@@ -4,5 +4,5 @@ package test
 import sbt._
 
 abstract class BaseScriptedTestBuild extends Build {
-	lazy val scriptedTestSettings = Seq[Project.Setting[_]]()
+	lazy val scriptedTestSettings = Seq[Def.Setting[_]]()
 }
