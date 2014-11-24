@@ -19,11 +19,12 @@ object SbtXjcPlugin extends Plugin {
   val xjcLibs        = SettingKey[Seq[ModuleID]]("xjc-libs", "Core XJC libraries")
   val xjcPlugins     = SettingKey[Seq[ModuleID]]("xjc-plugins", "Plugins for XJC code generation")
   val xjcCommandLine = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
-
+  val xjcMainClass   = SettingKey[String]("xjc-plugin-main-class", "Main class to run in xjc jar")
   /** Main settings to enable XSD compilation */
   val xjcSettings     = Seq[Project.Setting[_]](
     ivyConfigurations ++= Seq(XjcTool, XjcPlugin),
     xjcCommandLine    := Seq(),
+    xjcMainClass      := "com.sun.tools.xjc.XjcFacade",
     xjcPlugins        := Seq(),
     xjcLibs           := Seq(
       "javax.xml.bind" % "jaxb-api" % "2.1",
@@ -52,7 +53,7 @@ object SbtXjcPlugin extends Plugin {
     sources in xjc       <<= unmanagedResourceDirectories.map(dirs => (dirs ** "*.xsd").get),
     sourceManaged in xjc ~= (_ / "xjc"), // e.g. /target/scala-2.8.1.final/src_managed/main/xjc
     xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
-                              sourceManaged in xjc, xjcCommandLine, streams).map(xjcCompile),
+                              sourceManaged in xjc, xjcCommandLine, xjcMainClass, streams).map(xjcCompile),
     sourceGenerators     <+= xjc,
     clean in xjc         <<= (sourceManaged in xjc, streams).map(xjcClean)
   )
@@ -61,7 +62,7 @@ object SbtXjcPlugin extends Plugin {
    * @return the .java files in `sourceManaged` after compilation.
    */
   private def xjcCompile(javaHome: Option[File], classpathTypes: Set[String], updateReport: UpdateReport,
-                         xjcSources: Seq[File], sourceManaged: File, extraCommandLine: Seq[String],
+                         xjcSources: Seq[File], sourceManaged: File, extraCommandLine: Seq[String], mainClass: String,
                          streams: TaskStreams): Seq[File] = {
     import streams.log
     def generated = (sourceManaged ** "*.java").get
@@ -87,7 +88,6 @@ object SbtXjcPlugin extends Plugin {
         case js    => Seq("-extension", "-classpath", js.mkString(pathSeparator))
       }
       val appOptions = pluginCpOptions ++ Seq("-d", sourceManaged.getAbsolutePath)
-      val mainClass  = "com.sun.tools.xjc.XJCFacade"
 
       jvmCpOptions ++ List(mainClass) ++ appOptions ++ extraCommandLine ++ xsdSourcePaths
     }
