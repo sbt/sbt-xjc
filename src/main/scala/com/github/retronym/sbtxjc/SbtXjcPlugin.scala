@@ -19,11 +19,13 @@ object SbtXjcPlugin extends Plugin {
   val xjcLibs        = SettingKey[Seq[ModuleID]]("xjc-libs", "Core XJC libraries")
   val xjcPlugins     = SettingKey[Seq[ModuleID]]("xjc-plugins", "Plugins for XJC code generation")
   val xjcCommandLine = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
+  val xjcBindings   = SettingKey[Seq[String]]("xjc-plugin-bindings", "Binding files to add to XJC.")
 
   /** Main settings to enable XSD compilation */
   val xjcSettings     = Seq[Def.Setting[_]](
     ivyConfigurations ++= Seq(XjcTool, XjcPlugin),
     xjcCommandLine    := Seq(),
+    xjcBindings       := Seq(),
     xjcPlugins        := Seq(),
     xjcLibs           := Seq(
       "javax.xml.bind" % "jaxb-api" % "2.2.7",
@@ -52,7 +54,7 @@ object SbtXjcPlugin extends Plugin {
     sources in xjc       <<= unmanagedResourceDirectories.map(dirs => (dirs ** "*.xsd").get),
     sourceManaged in xjc ~= (_ / "xjc"), // e.g. /target/scala-2.8.1.final/src_managed/main/xjc
     xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
-                              sourceManaged in xjc, xjcCommandLine, streams).map(xjcCompile),
+                              sourceManaged in xjc, xjcCommandLine, xjcBindings, streams).map(xjcCompile),
     sourceGenerators     <+= xjc,
     clean in xjc         <<= (sourceManaged in xjc, streams).map(xjcClean)
   )
@@ -61,8 +63,8 @@ object SbtXjcPlugin extends Plugin {
    * @return the .java files in `sourceManaged` after compilation.
    */
   private def xjcCompile(javaHome: Option[File], classpathTypes: Set[String], updateReport: UpdateReport,
-                         xjcSources: Seq[File], sourceManaged: File, extraCommandLine: Seq[String],
-                         streams: TaskStreams): Seq[File] = {
+                         xjcSources: Seq[File], sourceManaged: File, extraCommandLine: Seq[String], 
+						 xjcBindings: Seq[String], streams: TaskStreams): Seq[File] = {
     import streams.log
     def generated = (sourceManaged ** "*.java").get
 
@@ -88,14 +90,15 @@ object SbtXjcPlugin extends Plugin {
       }
       val appOptions = pluginCpOptions ++ Seq("-d", sourceManaged.getAbsolutePath)
       val mainClass  = "com.sun.tools.xjc.XJCFacade"
+	  val bindings = xjcBindings.map(List("-b",_)).flatten
 
-      jvmCpOptions ++ List(mainClass) ++ appOptions ++ extraCommandLine ++ xsdSourcePaths
+      jvmCpOptions ++ List(mainClass) ++ appOptions ++ extraCommandLine ++ xsdSourcePaths ++ bindings
     }
 
     if (shouldProcess) {
       sourceManaged.mkdirs()
       log.info("Compiling %d XSD file(s) to %s".format(xjcSources.size, sourceManaged.getAbsolutePath))
-      log.debug("XJC java command line: " + options.mkString("\n"))
+      log.info("XJC java command line: " + options.mkString("\n"))
       val returnCode = Forker(javaHome, options, log)
       if (returnCode != 0) sys.error("Non zero return code from xjc [%d]".format(returnCode))
     } else {
