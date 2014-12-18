@@ -19,7 +19,7 @@ object SbtXjcPlugin extends Plugin {
   val xjcLibs        = SettingKey[Seq[ModuleID]]("xjc-libs", "Core XJC libraries")
   val xjcPlugins     = SettingKey[Seq[ModuleID]]("xjc-plugins", "Plugins for XJC code generation")
   val xjcCommandLine = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
-  val xjcBindings   = SettingKey[Seq[String]]("xjc-plugin-bindings", "Binding files to add to XJC.")
+  val xjcBindings    = SettingKey[Seq[String]]("xjc-plugin-bindings", "Binding files to add to XJC.")
 
   /** Main settings to enable XSD compilation */
   val xjcSettings     = Seq[Def.Setting[_]](
@@ -98,7 +98,7 @@ object SbtXjcPlugin extends Plugin {
     if (shouldProcess) {
       sourceManaged.mkdirs()
       log.info("Compiling %d XSD file(s) to %s".format(xjcSources.size, sourceManaged.getAbsolutePath))
-      log.info("XJC java command line: " + options.mkString("\n"))
+      log.debug("XJC java command line: " + options.mkString("\n"))
       val returnCode = Forker(javaHome, options, log)
       if (returnCode != 0) sys.error("Non zero return code from xjc [%d]".format(returnCode))
     } else {
