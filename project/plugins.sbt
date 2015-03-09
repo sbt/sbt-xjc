@@ -1,6 +1,6 @@
-resolvers += Resolver.url("Typesafe repository", new java.net.URL("http://typesafe.artifactoryonline.com/typesafe/ivy-releases/"))(Resolver.defaultIvyPatterns)
+resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/releases/"
 
-resolvers += Resolver.url("Typesafe snapshot repository", new java.net.URL("http://typesafe.artifactoryonline.com/typesafe/ivy-snapshots/"))(Resolver.defaultIvyPatterns)
+resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/snapshots/"
 
 libraryDependencies <+= (sbtVersion).apply { sv =>
   "org.scala-sbt" % "scripted-plugin" % sv
