@@ -1,10 +1,11 @@
 package com.github.retronym.sbtxjc
 
-import sbt.Fork.ForkJava
 import java.io.File
-import sbt.Logger
 
-// TODO references ForkJava triggers a SOE in IDEA, probably because of scalap.
+import sbt.{Fork, ForkOptions, Logger}
+
 object Forker {
-  def apply(javaHome: Option[File], options: Seq[String], log: Logger): Int = (new ForkJava("java")).apply(javaHome, options, log)
+  def apply(javaHome: Option[File], options: Seq[String], log: Logger): Int = {
+    new Fork("java", None).apply(new ForkOptions(javaHome = javaHome), options)
+  }
 }

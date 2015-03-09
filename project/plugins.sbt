@@ -5,3 +5,5 @@ resolvers += Resolver.url("Typesafe snapshot repository", new java.net.URL("http
 libraryDependencies <+= (sbtVersion).apply { sv =>
   "org.scala-sbt" % "scripted-plugin" % sv
 }
+
+addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.5.2")

@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="org.scala-tools.sbt_precompiled-2_9_0-1_0.10.1">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/.ivy2/cache/org.scala-tools.sbt/precompiled-2_9_0-1/jars/compiler-interface-bin-0.10.1.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
