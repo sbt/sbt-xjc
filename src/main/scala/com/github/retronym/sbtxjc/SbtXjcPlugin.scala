@@ -2,13 +2,18 @@ package com.github.retronym.sbtxjc
 
 import java.io.File
 
-import sbt.Keys._
 import sbt._
+import Keys._
 
 /**
  * Compile Xml Schemata with JAXB XJC.
  */
-object SbtXjcPlugin extends Plugin {
+object SbtXjcPlugin extends AutoPlugin {
+
+  override def requires = sbt.plugins.JvmPlugin
+
+  override def trigger = allRequirements
+
   /** An Ivy scope for the XJC compiler */
   val XjcTool   = config("xjc-tool").hide
 
@@ -22,7 +27,7 @@ object SbtXjcPlugin extends Plugin {
   val xjcBindings    = SettingKey[Seq[String]]("xjc-plugin-bindings", "Binding files to add to XJC.")
 
   /** Main settings to enable XSD compilation */
-  val xjcSettings     = Seq[Def.Setting[_]](
+    override lazy val projectSettings = Seq[Def.Setting[_]](
     ivyConfigurations ++= Seq(XjcTool, XjcPlugin),
     xjcCommandLine    := Seq(),
     xjcBindings       := Seq(),
