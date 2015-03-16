@@ -28,9 +28,7 @@ object SbtXjcPlugin extends Plugin {
     xjcBindings       := Seq(),
     xjcPlugins        := Seq(),
     xjcLibs           := Seq(
-      "javax.xml.bind" % "jaxb-api" % "2.2.7",
-      "com.sun.xml.bind" % "jaxb-impl" % "2.2.7",
-      "com.sun.xml.bind" % "jaxb-xjc" % "2.2.7"
+      "org.glassfish.jaxb" % "jaxb-xjc" % "2.2.11"
     ),
     libraryDependencies <++= (xjcLibs)(_.map(_ % XjcTool.name)),
     libraryDependencies <++= (xjcPlugins)(_.map(_ % XjcPlugin.name))
