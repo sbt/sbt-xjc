@@ -8,10 +8,6 @@ Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.12.x or 0.13
 addSbtPlugin("org.scala-sbt.plugins" % "sbt-xjc" % "0.6")
 ```
 
-### Introduce Settings
-
-Include the settings from `com.github.retronym.sbtxjc.SbtXjcPlugin.xjcSettings`.
-
 ### Configure
 
 By default, all XSDs found under `unmanagedResourceDirectories` will be compiled. This is repeated in the
