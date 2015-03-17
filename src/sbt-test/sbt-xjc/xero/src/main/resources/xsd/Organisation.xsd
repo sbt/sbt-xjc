@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Organisation"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="Timezone.xsd" />
+  <xs:include schemaLocation="CurrencyCode.xsd" />
+  <xs:include schemaLocation="CountryCode.xsd" />
+  <xs:include schemaLocation="Phone.xsd" />
+  <xs:include schemaLocation="Address.xsd" />
+  
+  <xs:element name="Organisations" nillable="true" type="ArrayOfOrganisation" />
+
+  <xs:complexType name="ArrayOfOrganisation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Organisation" nillable="true" type="Organisation" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="Organisation">
+    <xs:all>
+            
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="APIKey" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="organisationName" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LegalName" type="organisationName" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PaysTax" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Version" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="OrganisationType" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="OrganisationEntityType" type="organisationEntityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BaseCurrency" type="currencyCode" />
+      
+      <xs:element minOccurs="0" maxOccurs="1" name="CountryCode" type="isoCountryCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="IsDemoCompany" type="trueOrFalse" />
+      <xs:element minOccurs="0" maxOccurs="1" name="OrganisationStatus" type="organisationStatusCode" />
+      
+      <xs:element minOccurs="0" maxOccurs="1" name="RegistrationNumber" type="companyRegistrationNumberType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxNumber" type="taxNumberType" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="FinancialYearEndDay" type="dayNumber" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FinancialYearEndMonth" type="monthNumber" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PeriodLockDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EndOfYearLockDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CreatedDateUTC" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Timezone" type="timezoneCode" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="Addresses" type="ArrayOfAddress" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Phones" type="ArrayOfPhone" />
+      
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+  <xs:simpleType name="organisationName">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>

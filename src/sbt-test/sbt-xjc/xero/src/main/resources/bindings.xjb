@@ -1,0 +1,66 @@
+<jaxb:bindings version="2.1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:com.fnf="http://www.fnf.com/xes">
+
+  <!-- Status attribute and element collision -->
+  <jaxb:bindings schemaLocation="xsd/Account.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='Account']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/BankTransaction.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='BankTransaction']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/CreditNote.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='CreditNote']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/Employee.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='Employee']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/ExpenseClaim.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='ExpenseClaim']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/Invoice.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='Invoice']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/ManualJournal.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='ManualJournal']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/Payment.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='Payment']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/Receipt.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='Receipt']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/RepeatingInvoice.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='RepeatingInvoice']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/TaxRate.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='TaxRate']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="xsd/Tracking.xsd" node="/xs:schema">
+    <jaxb:bindings node="/xs:schema/xs:complexType[@name='TrackingCategory']/xs:attribute[@name='status']">
+      <jaxb:property name="validationStatus" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+</jaxb:bindings>

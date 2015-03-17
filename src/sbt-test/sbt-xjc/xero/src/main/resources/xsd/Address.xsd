@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Address"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  
+  <xs:complexType name="Address">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="AddressType" type="addressType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AddressLine1" type="addressLineType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AddressLine2" type="addressLineType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AddressLine3" type="addressLineType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AddressLine4" type="addressLineType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="City" type="addressCityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Region" type="addressRegionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PostalCode" type="addressPostalCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Country" type="addressCountryType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AttentionTo" type="addressAttentionToType" />
+
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+  
+  <xs:complexType name="ArrayOfAddress">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="2" name="Address" nillable="true" type="Address" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="addressType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="POBOX" />
+      <xs:enumeration value="STREET" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="addressLineType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="500" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="addressCityType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="addressRegionType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="addressPostalCodeType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="addressCountryType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="addressAttentionToType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>

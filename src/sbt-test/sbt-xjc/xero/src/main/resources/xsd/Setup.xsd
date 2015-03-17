@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" id="Setup" elementFormDefault="qualified">
+  <xs:include schemaLocation="BaseTypes.xsd"/>
+  <xs:include schemaLocation="CurrencyCode.xsd"/>
+  <xs:include schemaLocation="Address.xsd"/>
+  <xs:include schemaLocation="Account.xsd"/>
+  <xs:include schemaLocation="TaxRate.xsd"/>
+  <xs:include schemaLocation="Organisation.xsd"/>
+  <xs:include schemaLocation="Items.xsd"/>
+  <xs:include schemaLocation="Contact.xsd"/>
+  <xs:include schemaLocation="Invoice.xsd"/>
+
+  <xs:element name="Setup" nillable="true" type="SetupType"/>
+
+  <!--
+  Setup for conversions
+  -->
+  <xs:complexType name="SetupType">
+    <xs:all>
+      <xs:element minOccurs="1" maxOccurs="1" name="ConversionDetails" type="ConversionDetails" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Organisation" type="Organisation" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Accounts" type="ArrayOfAccount"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxRates" type="ArrayOfTaxRate"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Contacts" type="ArrayOfContact"/>
+      <xs:element minOccurs="0" maxOccurs="1" name="Items" type="ArrayOfItem"/>
+    </xs:all>
+  </xs:complexType>
+
+  <!--
+  Conversion Details
+  -->
+  <xs:complexType name="ConversionDetails">
+    <xs:all>
+      <xs:element minOccurs="1" maxOccurs="1" name="ConversionProductName" type="conversionProductName" />
+      <xs:element minOccurs="1" maxOccurs="1" name="OriginatingProductName" type="originatingProductName" />
+      <xs:element minOccurs="1" maxOccurs="1" name="OriginatingProductVersion" type="originatingProductVersion" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:simpleType name="conversionProductName">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="200" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="originatingProductName">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="200" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="originatingProductVersion">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Payment"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="Account.xsd" />
+  <xs:include schemaLocation="Invoice.xsd" />
+
+  <xs:element name="Payments" nillable="true" type="ArrayOfPayment" />
+  <xs:element name="Payment" type="Payment" />
+
+  <!-- Payment against an invoice -->
+  <xs:complexType name="Payment">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="PaymentID" type="uniqueIdentifier" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Amount" type="xs:decimal" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Account" type="Account" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Reference" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Invoice" type="Invoice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CurrencyRate" type="currencyRate" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PaymentType" type="paymentType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Status" type="invoiceStatus" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UpdatedDateUTC" nillable="true" type="xs:dateTime" />
+      
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="ArrayOfPayment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Payment" nillable="true" type="Payment" />
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>

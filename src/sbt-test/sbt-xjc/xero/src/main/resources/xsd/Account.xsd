@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Account"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="CurrencyCode.xsd" />
+  
+  <xs:element name="Accounts" nillable="true" type="ArrayOfAccount" />
+
+  <xs:complexType name="ArrayOfAccount">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Account" nillable="true" type="Account" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Account">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+      
+      <xs:element minOccurs="0" maxOccurs="1" name="AccountID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Code" type="accountCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="accountName" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Status" type="accountStatus" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Type" type="accountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxType" type="taxType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Class" type="accountClass" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SystemAccount" type="accountSystemCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EnablePaymentsToAccount" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ShowInExpenseClaims" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BankAccountNumber" type="bankAccountNumber" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="currencyCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ReportingCode" type="reportCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ReportingCodeName" type="reportCodeName" />
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+  <xs:simpleType name="reportCode">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="100" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="reportCodeName">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="100" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>

@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Report"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+
+  <!-- Reports -->
+  <xs:complexType name="ArrayOfReport">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Report" nillable="true" type="Report" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Report -->
+  <xs:complexType name="Report">
+    <xs:sequence>
+      <xs:element name="ReportID" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element name="ReportName" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element name="ReportType" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element name="ReportTitles" minOccurs="0" maxOccurs="1" type="ReportTitles" />
+      <xs:element name="ReportDate" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="UpdatedDateUTC" type="xs:dateTime" />
+      <xs:element name="Rows" minOccurs="0" maxOccurs="1" type="ReportRows" />
+      <xs:element name="Attributes" minOccurs="0" maxOccurs="1" type="ReportAttributes" />
+      <xs:element name="Fields" minOccurs="0" maxOccurs="1" type="ReportFields" />      
+    </xs:sequence>
+  </xs:complexType>
+
+  
+  <!-- ReportTitles-->
+  <xs:complexType name="ReportTitles">
+    <xs:sequence>
+      <xs:element name="ReportTitle" minOccurs="0" maxOccurs="unbounded" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  
+  <!-- ReportAttributes -->
+  <xs:complexType name="ReportAttributes">
+    <xs:sequence>
+      <xs:element name="ReportAttribute" minOccurs="0" maxOccurs="unbounded" type="ReportAttribute" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReportAttribute">
+    <xs:sequence>
+      <xs:element name="Name" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element name="Description" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element name="Value" minOccurs="1" maxOccurs="1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  
+  <!-- ReportFields -->
+  <xs:complexType name="ReportFields">
+    <xs:sequence>
+      <xs:element name="ReportField" minOccurs="0" maxOccurs="unbounded" type="ReportField" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReportField">
+    <xs:sequence>
+      <xs:element name="FieldID" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element name="Description" minOccurs="1" maxOccurs="1" type="xs:string" />
+      <xs:element name="Value" minOccurs="1" maxOccurs="1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  
+  <!-- ReportRows -->
+  <xs:complexType name="ReportRows">
+    <xs:sequence>
+      <xs:element name="Row" minOccurs="0" maxOccurs="unbounded" type="ReportRow" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- ReportRow -->
+  <xs:complexType name="ReportRow">
+    <xs:sequence>
+      <xs:element name="RowType" minOccurs="1" maxOccurs="1" type="ReportRowType" />
+      <xs:element name="Title" minOccurs="0" maxOccurs="1" type="xs:string" />
+      <xs:element name="Header" minOccurs="0" maxOccurs="1" type="xs:string" />
+      <xs:element name="Rows" minOccurs="0" maxOccurs="1" type="ReportRows" />
+      <xs:element name="Cells" minOccurs="0" maxOccurs="1" type="ReportCells" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="ReportRowType">
+    <xs:restriction base="xs:token">
+	    <xs:enumeration value="Header"><xs:annotation><xs:documentation>Report Header Row</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="Section"><xs:annotation><xs:documentation>Report Section Row</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="Row"><xs:annotation><xs:documentation>Report Data Row</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="SummaryRow"><xs:annotation><xs:documentation>Summary Data Row</xs:documentation></xs:annotation></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  
+  <!-- ReportCells -->
+  <xs:complexType name="ReportCells">
+    <xs:sequence>
+      <xs:element name="Cell" minOccurs="0" maxOccurs="unbounded" type="ReportCell" />
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:complexType name="ReportCell">
+    <xs:sequence>
+      <xs:element name="Value" minOccurs="0" maxOccurs="1" type="xs:string" />
+      <xs:element name="Attributes" minOccurs="0" maxOccurs="1" type="ReportCellAttributes" />
+    </xs:sequence>
+  </xs:complexType>
+
+  
+  <!-- ReportCellAttributes -->
+  <xs:complexType name="ReportCellAttributes">
+    <xs:sequence>
+      <xs:element name="Attribute" minOccurs="0" maxOccurs="unbounded" type="ReportCellAttribute" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReportCellAttribute">
+    <xs:sequence>
+      <xs:element name="Value" minOccurs="0" maxOccurs="1" type="xs:string" />
+      <xs:element name="Id" minOccurs="0" maxOccurs="1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>

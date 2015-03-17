@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="BankTransfer"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="Account.xsd" />
+  
+  <xs:element name="BankTransfers" type="ArrayOfBankTransfer" />
+
+  <!-- Bank Transactions -->
+  <xs:complexType name="ArrayOfBankTransfer">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BankTransfer" nillable="true" type="BankTransfer" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Bank Transfer (Spend or Receive) -->
+  <xs:complexType name="BankTransfer">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+      <xs:element minOccurs="1" maxOccurs="1" name="BankTransferID" type="uniqueIdentifier" />
+      <xs:element minOccurs="1" maxOccurs="1" name="CreatedDateUTC" type="xs:dateTime" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="1" maxOccurs="1" name="FromBankAccount" type="BankAccount" />
+      <xs:element minOccurs="1" maxOccurs="1" name="ToBankAccount" type="BankAccount" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Amount" type="itemPrice" />
+      <xs:element minOccurs="1" maxOccurs="1" name="FromBankTransactionID" type="uniqueIdentifier" />
+      <xs:element minOccurs="1" maxOccurs="1" name="ToBankTransactionID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CurrencyRate" type="currencyRate" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HasAttachments" type="xs:boolean" />
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="BankAccount">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="AccountID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Code" type="accountCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="accountName" />
+    </xs:all>
+  </xs:complexType>
+
+</xs:schema>

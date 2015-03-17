@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="BaseTypes"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  
+  <!--
+  Simple Types
+  -->
+
+  <xs:simpleType name="nonUnicodeString">
+    <xs:restriction base="xs:string">
+     <!-- <xs:pattern value="[0-9a-zA-Z-_]+" /> -->
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- uniqueIdentifier -->
+  <xs:simpleType name="uniqueIdentifier">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- quantity to 4dp -->
+  <xs:simpleType name="itemQuantity">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+      <xs:fractionDigits value="4" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- prices to 2dp -->
+  <xs:simpleType name="itemPrice">
+    <xs:restriction base="xs:decimal">
+      <xs:fractionDigits value="2" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- tax rates to 4dp -->
+  <xs:simpleType name="taxRate">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+      <xs:fractionDigits value="4" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- currency rates to 6dp -->
+  <xs:simpleType name="currencyRate">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+      <xs:fractionDigits value="6" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Organisation Details -->
+  
+  <xs:simpleType name="taxNumberType">
+    <xs:restriction base="nonUnicodeString">
+      <xs:minLength value="1" />
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="taxNumberDisplayNameType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="companyRegistrationNumberType">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+    
+  
+  <!--
+  Complex types
+  -->
+  
+  <xs:complexType name="ArrayOfValidationError">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ValidationError" type="ValidationError" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ValidationError">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Message" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ArrayOfWarning">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Warning" type="Warning" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Warning">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Message" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Hyperlink">
+    <xs:sequence>
+      <xs:element name="LinkID" minOccurs="0" maxOccurs="1" type="uniqueIdentifier" />
+      <xs:element name="Url" minOccurs="0" maxOccurs="1" type="xs:anyURI" />
+      <xs:element name="Description" minOccurs="0" maxOccurs="1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <!--
+  Enumerator Types  
+  -->
+
+  <!-- Line Amount Type -->
+  <xs:simpleType name="lineAmountType">
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NoTax"><xs:annotation><xs:documentation>No Tax</xs:documentation></xs:annotation></xs:enumeration>
+          <xs:enumeration value="Inclusive"><xs:annotation><xs:documentation>Tax Inclusive</xs:documentation></xs:annotation></xs:enumeration>
+          <xs:enumeration value="Exclusive"><xs:annotation><xs:documentation>Tax Exclusive</xs:documentation></xs:annotation></xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+
+  <!-- Tax Type -->
+  <!-- See http://www.ibm.com/developerworks/library/x-extenum/ for info on how xs:union helps here -->
+  <xs:simpleType name="taxType">
+    <xs:annotation><xs:documentation>Tax Type</xs:documentation></xs:annotation>
+    <xs:union memberTypes="fixedTaxType customTaxType"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="fixedTaxType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INPUT"><xs:annotation><xs:documentation>Input</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="INPUT2"><xs:annotation><xs:documentation>Input2</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="NONE"><xs:annotation><xs:documentation>None</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="OUTPUT"><xs:annotation><xs:documentation>Output</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="OUTPUT2"><xs:annotation><xs:documentation>Output2</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="ZERORATED"><xs:annotation><xs:documentation>Zero Rated</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="EXEMPTINPUT"><xs:annotation><xs:documentation>Exempt Input</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="EXEMPTOUTPUT"><xs:annotation><xs:documentation>Exempt Output</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="RRINPUT"><xs:annotation><xs:documentation>Reduced Rate Input</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="RROUTPUT"><xs:annotation><xs:documentation>Reduced Rate Output</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="ZERORATEDINPUT"><xs:annotation><xs:documentation>Zero Rated Input</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="ZERORATEDOUTPUT"><xs:annotation><xs:documentation>Zero Rated Output</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="EXEMPTEXPORT"><xs:annotation><xs:documentation>Exempt Export</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="CAPEXINPUT"><xs:annotation><xs:documentation>Capital Input</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="IMPORTDUTY"><xs:annotation><xs:documentation>Import Duty</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="INPUTTAXED"><xs:annotation><xs:documentation>Input Taxed</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="SRINPUT"><xs:annotation><xs:documentation>Special Rate Input</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="SROUTPUT"><xs:annotation><xs:documentation>Special Rate Output</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="GSTONIMPORTS"><xs:annotation><xs:documentation>GST On Imports</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="GSTONCAPIMPORTS"><xs:annotation><xs:documentation>GST On Capital Imports</xs:documentation></xs:annotation></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="customTaxType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="TAX[0-9][0-9][0-9]"></xs:pattern>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Invoice Status -->
+  <xs:simpleType name="invoiceStatus">
+    <xs:annotation><xs:documentation>Invoice Status</xs:documentation></xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="DRAFT"><xs:annotation><xs:documentation>Draft</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="SUBMITTED"><xs:annotation><xs:documentation>Submitted</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="DELETED"><xs:annotation><xs:documentation>Deleted</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="AUTHORISED"><xs:annotation><xs:documentation>Authorised</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="PAID"><xs:annotation><xs:documentation>Paid</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="VOIDED"><xs:annotation><xs:documentation>Voided</xs:documentation></xs:annotation></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Account Type -->
+  <xs:simpleType name="accountType">
+    <xs:annotation><xs:documentation>Account Type</xs:documentation></xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="BANK"><xs:annotation><xs:documentation>Bank</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="CURRENT"><xs:annotation><xs:documentation>Current Assets</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="CURRLIAB"><xs:annotation><xs:documentation>Current Liabilities</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="DEPRECIATN"><xs:annotation><xs:documentation>Depreciation</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="DIRECTCOSTS"><xs:annotation><xs:documentation>Direct Costs</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="EQUITY"><xs:annotation><xs:documentation>Equity</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="EXPENSE"><xs:annotation><xs:documentation>Expenses</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="FIXED"><xs:annotation><xs:documentation>Fixed Assets</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="LIABILITY"><xs:annotation><xs:documentation>Liability</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="NONCURRENT"><xs:annotation><xs:documentation>Non-Current Assets</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="OTHERINCOME"><xs:annotation><xs:documentation>Other Income</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="OVERHEADS"><xs:annotation><xs:documentation>Overheads</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="PREPAYMENT"><xs:annotation><xs:documentation>Prepayment</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="REVENUE"><xs:annotation><xs:documentation>Revenue</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="SALES"><xs:annotation><xs:documentation>Sales</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="TERMLIAB"><xs:annotation><xs:documentation>Non-Current Liabilities</xs:documentation></xs:annotation></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- System Account Code -->
+  <xs:simpleType name="accountSystemCode">
+    <xs:annotation><xs:documentation>Account System Code</xs:documentation></xs:annotation>
+    <xs:restriction base="xs:token">
+	    <xs:enumeration value="ROUNDING"><xs:annotation><xs:documentation>Rounding</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="GST"><xs:annotation><xs:documentation> GST</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="GSTONIMPORTS"><xs:annotation><xs:documentation>GST On Imports</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="CREDITORS"><xs:annotation><xs:documentation>Creditors</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="DEBTORS"><xs:annotation><xs:documentation>Debtors</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="UNPAIDEXPCLM"><xs:annotation><xs:documentation>Unpaid Expense Claims</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="HISTORICAL"><xs:annotation><xs:documentation>Historical Adjustments</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="RETAINEDEARNINGS"><xs:annotation><xs:documentation>Retained Earnings</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="TRACKINGTRANSFERS"><xs:annotation><xs:documentation>Tracking Transfers</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="REALISEDCURRENCYGAIN"><xs:annotation><xs:documentation>Realised FX</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="UNREALISEDCURRENCYGAIN"><xs:annotation><xs:documentation>Unrealised FX</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="BANKCURRENCYGAIN"><xs:annotation><xs:documentation>Bank Revaluations</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="WAGEPAYABLES"><xs:annotation><xs:documentation>Wage Payables</xs:documentation></xs:annotation></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Account Status -->
+  <xs:simpleType name="accountStatus">
+    <xs:annotation><xs:documentation>Account Status</xs:documentation></xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="ACTIVE"><xs:annotation><xs:documentation>Active</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="ARCHIVED"><xs:annotation><xs:documentation>Archived</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="DELETED"><xs:annotation><xs:documentation>Deleted</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="PENDING"><xs:annotation><xs:documentation>Pending</xs:documentation></xs:annotation></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Account Name -->
+  <xs:simpleType name="accountName">
+    <xs:annotation>
+      <xs:documentation>Account Name</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="150" />
+      <xs:minLength value="1" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Account Code -->
+  <xs:simpleType name="accountCode">
+    <xs:annotation>
+      <xs:documentation>Account Code</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:maxLength value="10" />
+      <xs:minLength value="1" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Bank Account Number-->
+  <xs:simpleType name="bankAccountNumber">
+    <xs:annotation>
+      <xs:documentation>Bank Account Number</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Contact Name -->
+  <xs:simpleType name="contactName">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="500" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Contact First Name -->
+  <xs:simpleType name="contactFirstName">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Contact Last Name -->
+  <xs:simpleType name="contactLastName">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Email Address -->
+  <xs:simpleType name="emailAddress">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="500" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Skype User Name -->
+  <xs:simpleType name="skypeUserName">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="255" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Document types for 'Invoice' endpoint -->
+  <xs:simpleType name="invoiceType">
+    <xs:annotation>
+      <xs:documentation>Invoice Type</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="ACCPAY"><xs:annotation><xs:documentation>Accounts Payable</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="ACCREC"><xs:annotation><xs:documentation>Accounts Receivable</xs:documentation></xs:annotation></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+    
+  <!-- Document types for 'CreditNote' endpoint -->
+  <xs:simpleType name="creditNoteType">
+    <xs:annotation>
+      <xs:documentation>Invoice Type</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="ACCPAYCREDIT"></xs:enumeration>
+      <xs:enumeration value="ACCRECCREDIT"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+ <!-- Document types for 'Payments' endpoint -->
+  <xs:simpleType name="paymentType">
+    <xs:annotation>
+      <xs:documentation>Payment Type</xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="ACCPAYPAYMENT"></xs:enumeration>
+      <xs:enumeration value="ACCRECPAYMENT"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  
+  <!-- Manual Journal Status Enumeration-->
+  <xs:simpleType name="manualJournalStatus">
+  	<xs:annotation><xs:documentation>Manual Journal Type</xs:documentation></xs:annotation>
+  	<xs:restriction base="xs:token">
+  		<xs:enumeration value="DRAFT"><xs:annotation><xs:documentation>Draft</xs:documentation></xs:annotation></xs:enumeration>
+  		<xs:enumeration value="POSTED"><xs:annotation><xs:documentation>Posted</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="VOIDED"><xs:annotation><xs:documentation>Voided</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="DELETED"><xs:annotation><xs:documentation>Deleted</xs:documentation></xs:annotation></xs:enumeration>
+  	</xs:restriction>
+  </xs:simpleType>
+
+  <!-- Receipt Status -->
+  <xs:simpleType name="receiptStatus">
+  	<xs:annotation><xs:documentation>Receipt Status</xs:documentation></xs:annotation>
+  	<xs:restriction base="xs:token">
+  		<xs:enumeration value="DRAFT"><xs:annotation><xs:documentation>Draft</xs:documentation></xs:annotation></xs:enumeration>
+  		<xs:enumeration value="SUBMITTED"><xs:annotation><xs:documentation>Submitted</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="AUTHORISED"></xs:enumeration>
+      <xs:enumeration value="VOIDED"></xs:enumeration>
+      <xs:enumeration value="DELETED"></xs:enumeration>
+  	</xs:restriction>    
+  </xs:simpleType>
+  
+  <!-- Expense Claim Status-->
+  <xs:simpleType name="expenseClaimStatus">
+  	<xs:annotation><xs:documentation>Expense Claim Status</xs:documentation></xs:annotation>
+  	<xs:restriction base="xs:token">
+  		<xs:enumeration value="SUBMITTED"><xs:annotation><xs:documentation>Submitted</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="AUTHORISED"></xs:enumeration>
+      <xs:enumeration value="DELETED"></xs:enumeration>
+      <xs:enumeration value="VOIDED"></xs:enumeration>
+  	</xs:restriction> 
+  </xs:simpleType>
+  
+  <!-- Currency Rate Usage -->
+  <xs:simpleType name="currencyRateUsage">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="DAILY"><xs:annotation><xs:documentation>Daily Rate</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="SINGLE"><xs:annotation><xs:documentation>Single Use Rate</xs:documentation></xs:annotation></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Organisation Status Code-->
+  <xs:simpleType name="organisationStatusCode">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="ACTIVE"></xs:enumeration>
+      <xs:enumeration value="SUSPENDED"></xs:enumeration>
+      <xs:enumeration value="DELETED"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Organisation Entity Type -->
+  <xs:simpleType name="organisationEntityType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="CHARITY"></xs:enumeration>
+      <xs:enumeration value="CLUBSOCIETY"></xs:enumeration>
+      <xs:enumeration value="COMPANY"></xs:enumeration>
+      <xs:enumeration value="LTCOMPANY"></xs:enumeration>
+      <xs:enumeration value="NOTFORPROFIT"></xs:enumeration>
+      <xs:enumeration value="PARTNERSHIP"></xs:enumeration>
+      <xs:enumeration value="PERSON"></xs:enumeration>
+      <xs:enumeration value="SCORPORATION"></xs:enumeration>
+      <xs:enumeration value="SMSUPERFUND"></xs:enumeration>
+      <xs:enumeration value="SOLETRADER"></xs:enumeration>
+      <xs:enumeration value="SUPERFUND"></xs:enumeration>
+      <xs:enumeration value="TRUST"></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- trueOrFalse -->
+  <xs:simpleType name="trueOrFalse">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="true" />
+      <xs:enumeration value="false" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- dayNumber -->
+  <xs:simpleType name="dayNumber">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="31" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- monthNumber -->
+  <xs:simpleType name="monthNumber">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="1" />
+      <xs:maxInclusive value="12" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- employeeStatus -->
+  <xs:simpleType name="employeeStatus">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="ACTIVE" />
+      <xs:enumeration value="DELETED" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- entityStatus -->
+  <xs:simpleType name="entityValidationStatus">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="OK" />
+      <xs:enumeration value="WARNING" />
+      <xs:enumeration value="ERROR" />      
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Bank Transaction Status -->
+  <xs:simpleType name="bankTransactionStatus">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="AUTHORISED"/>
+      <xs:enumeration value="VOIDED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Bank Transaction Type (Spend Money or Receive Money) -->
+  <xs:simpleType name="bankTransactionType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="SPEND"/>
+      <xs:enumeration value="RECEIVE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Tax Rate Status-->
+  <xs:simpleType name="taxRateStatus">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="ACTIVE" />
+      <xs:enumeration value="DELETED" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- Account Class -->
+  <xs:simpleType name="accountClass">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="EXPENSE" />
+      <xs:enumeration value="ASSET" />
+      <xs:enumeration value="LIABILITY" />
+      <xs:enumeration value="REVENUE" />
+      <xs:enumeration value="EQUITY" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <!-- organisationRole -->
+  <xs:simpleType name="organisationRole">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="FINANCIALADVISER"><xs:annotation><xs:documentation>Financial Advisor</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="STANDARD"><xs:annotation><xs:documentation>Standard</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="INVOICEONLY"><xs:annotation><xs:documentation>Invoice Only</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="READONLY"><xs:annotation><xs:documentation>Read Only</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="UNKNOWN"><xs:annotation><xs:documentation>Unknown Role</xs:documentation></xs:annotation></xs:enumeration>
+      <xs:enumeration value="MANAGEDCLIENT"><xs:annotation><xs:documentation>Managed Client Role</xs:documentation></xs:annotation></xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>

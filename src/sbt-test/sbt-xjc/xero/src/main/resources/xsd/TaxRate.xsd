@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="TaxRate"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+
+  <xs:element name="TaxRates" nillable="true" type="ArrayOfTaxRate" />
+  
+  <xs:complexType name="ArrayOfTaxRate">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TaxRate" nillable="true" type="TaxRate" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="TaxRate">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxType" type="taxType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="CanApplyToAssets" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" name="CanApplyToEquity" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" name="CanApplyToExpenses" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" name="CanApplyToLiabilities" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" name="CanApplyToRevenue" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" name="DisplayTaxRate" nillable="true" type="taxRate" />
+      <xs:element minOccurs="1" maxOccurs="1" name="EffectiveRate" nillable="true" type="taxRate" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Status" type="taxRateStatus" />
+    
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+</xs:schema>
