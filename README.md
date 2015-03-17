@@ -2,7 +2,7 @@
 
 ### Usage
 
-Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.12.x or 0.13.x
+Depend on the plugin: `./project/plugins.sbt`. Requires SBT 0.12.x or 0.13.x
 
 ```
 addSbtPlugin("org.scala-sbt.plugins" % "sbt-xjc" % "0.6")
@@ -25,6 +25,10 @@ replace with `Test` to configure that scope.
   </tr>
   <tr>
     <td>xjcPlugins</td><td>Seq[ModuleId]</td><td></td><td>The artifacts to download containing XJC plugins</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>xjcBindings</td><td>Seq[String]</td><td></td><td>Files used to customize JAXB bindings</td>
     <td></td>
   </tr>
   <tr>
