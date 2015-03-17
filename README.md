@@ -1,11 +1,11 @@
-## sbt-xjc An SBT 0.11 Plugin to compile XML Schemata to JAXB Java sources with XJC
+## sbt-xjc An SBT Plugin to compile XML Schemata to JAXB Java sources with XJC
 
 ### Usage
 
 Depend on the plugin: `./project/plugins/build.sbt`. Requires SBT 0.12.x or 0.13.x
 
 ```
-addSbtPlugin("org.scala-sbt.plugins" % "sbt-xjc" % "0.5")
+addSbtPlugin("org.scala-sbt.plugins" % "sbt-xjc" % "0.6")
 ```
 
 ### Introduce Settings
