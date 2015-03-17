@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ManualJournal"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="Tracking.xsd" />
+
+  <xs:element name="Manualjournals" type="ArrayOfManualJournal" />
+
+  <!-- 
+  Manual Journal
+  -->
+  <xs:complexType name="ArrayOfManualJournal">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ManualJournal" nillable="true" type="ManualJournal" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ManualJournal">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="Date" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Status" type="manualJournalStatus" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LineAmountTypes" type="lineAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UpdatedDateUTC" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ManualJournalID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Narration" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="JournalLines" type="ArrayOfManualJournalLine" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Url" type="xs:anyURI" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ExternalLinkProviderName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ShowOnCashBasisReports" type="xs:boolean" />
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+  <!--
+  Manual Journal Lines
+  -->
+  <xs:complexType name="ArrayOfManualJournalLine">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="JournalLine" nillable="true" type="ManualJournalLine" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ManualJournalLine">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UnitAmount" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxType" type="taxType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxAmount" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LineAmount" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AccountCode" type="accountCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Tracking" type="TrackingCategory" />
+
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+  
+</xs:schema>

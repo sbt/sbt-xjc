@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Setting"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="Account.xsd" />
+  
+  <xs:element name="Settings" nillable="true" type="ArrayOfSetting" />
+
+  <xs:complexType name="ArrayOfSetting">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Accounts" type="ArrayOfAccount" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackingCategories" type="TrackingCategories" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DaysInPayrollYear" type="xs:string" />
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+
+  <xs:complexType name="TrackingCategories">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="EmployeeGroups" type="EmployeeGroups" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TimesheetCategories" type="TimesheetCategories" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EmployeeGroups">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackingCategoryID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackingCategoryName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+
+  <xs:complexType name="TimesheetCategories">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackingCategoryID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackingCategoryName" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

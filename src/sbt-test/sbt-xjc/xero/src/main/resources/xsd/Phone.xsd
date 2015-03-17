@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Phone"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  
+  <xs:complexType name="Phone">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="PhoneType" type="phoneTypeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PhoneNumber" type="phoneNumberType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PhoneAreaCode" type="phoneAreaCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PhoneCountryCode" type="phoneCountryCodeType" />
+
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="ArrayOfPhone">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="4" name="Phone" nillable="true" type="Phone" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="phoneTypeCodeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DEFAULT" />
+      <xs:enumeration value="FAX" />
+      <xs:enumeration value="MOBILE" />
+      <xs:enumeration value="DDI" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="phoneNumberType">
+    <xs:restriction base="nonUnicodeString">
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="phoneAreaCodeType">
+    <xs:restriction base="nonUnicodeString">
+      <xs:maxLength value="10" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="phoneCountryCodeType">
+    <xs:restriction base="nonUnicodeString">
+      <xs:maxLength value="20" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>

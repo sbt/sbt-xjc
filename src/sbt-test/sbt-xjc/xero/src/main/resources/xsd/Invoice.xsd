@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Invoice"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="Account.xsd" />
+  <xs:include schemaLocation="Attachment.xsd" />
+  <xs:include schemaLocation="Payment.xsd" />
+  <xs:include schemaLocation="Contact.xsd" />
+  <xs:include schemaLocation="CurrencyCode.xsd" />
+  <xs:include schemaLocation="LineItem.xsd" />
+  <xs:include schemaLocation="CreditNote.xsd" />
+
+  <xs:element name="Invoices" nillable="true" type="ArrayOfInvoice" />
+
+  <xs:complexType name="ArrayOfInvoice">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Invoice" nillable="true" type="Invoice" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="Invoice" type="Invoice" />
+  <xs:complexType name="Invoice">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="Contact" type="Contact" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Date" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DueDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ExpectedPaymentDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BrandingThemeID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Status" type="invoiceStatus" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LineAmountTypes" nillable="true" type="lineAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LineItems" type="ArrayOfLineItem" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DiscountRate" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SubTotal" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TotalTax" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Total" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UpdatedDateUTC" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="currencyCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FullyPaidOnDate" nillable="true" type="xs:dateTime" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="Type" type="invoiceType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="InvoiceID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="InvoiceNumber" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Reference" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Payments" type="ArrayOfPayment" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CreditNotes" type="ArrayOfCreditNote" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="AmountDue" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AmountPaid" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AmountCredited" type="itemPrice" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="Url" type="xs:anyURI" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ExternalLinkProviderName" type="xs:string" />
+
+      <!-- This is never 'false', it's just not there. -->
+      <xs:element minOccurs="0" maxOccurs="1" name="SentToContact" type="xs:boolean" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="CurrencyRate" type="currencyRate" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TotalDiscount" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HasAttachments" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Attachments" type="ArrayOfAttachment" />
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+  
+</xs:schema>

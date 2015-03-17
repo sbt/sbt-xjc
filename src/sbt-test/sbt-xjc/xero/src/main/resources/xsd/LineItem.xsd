@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="LineItem"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="Tracking.xsd" />
+
+  <xs:element name="LineItems" type="ArrayOfLineItem" />
+  
+  <xs:complexType name="ArrayOfLineItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LineItem" nillable="true" type="LineItem" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="LineItem">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="UnitAmount" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxType" type="taxType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="TaxAmount" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="1" maxOccurs="1" name="LineAmount" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AccountCode" type="accountCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Tracking" type="ArrayOfTrackingCategory" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ItemCode" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Quantity" nillable="true" type="itemQuantity" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DiscountRate" type="itemPrice" />
+
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />    
+  </xs:complexType>
+  
+</xs:schema>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  targetNamespace="http://xero.com/api/2.02/schema"
+  xmlns="http://xero.com/api/2.02/schema"
+-->
+<xs:schema id="BaseTypes"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="Account.xsd" />
+  <xs:include schemaLocation="Payment.xsd" />
+  <xs:include schemaLocation="Contact.xsd" />
+  <xs:include schemaLocation="Tracking.xsd" />
+  <xs:include schemaLocation="CurrencyCode.xsd" />
+  <xs:include schemaLocation="Organisation.xsd" />
+  <xs:include schemaLocation="TaxRate.xsd" />
+  <xs:include schemaLocation="Currency.xsd" />
+  <xs:include schemaLocation="CreditNote.xsd" />
+  <xs:include schemaLocation="Journal.xsd" />
+  <xs:include schemaLocation="BrandingTheme.xsd" />
+  <xs:include schemaLocation="Items.xsd" />
+  <xs:include schemaLocation="ManualJournal.xsd" />
+  <xs:include schemaLocation="Report.xsd" />
+  <xs:include schemaLocation="Employee.xsd" />
+  <xs:include schemaLocation="Attachment.xsd" />
+  <xs:include schemaLocation="BankTransaction.xsd" />
+  <xs:include schemaLocation="User.xsd" />
+  <xs:include schemaLocation="Receipt.xsd" />
+  <xs:include schemaLocation="ExpenseClaim.xsd" />
+  <xs:include schemaLocation="RepeatingInvoice.xsd" />
+  <xs:include schemaLocation="BankTransfer.xsd" />
+
+  <xs:element name="Response" type="ResponseType" />
+  
+  <xs:complexType name="ResponseType">
+    <xs:sequence>
+      
+      <!-- Header -->
+      <xs:element minOccurs="1" maxOccurs="1" name="Id" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Status" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ProviderName" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="DateTimeUTC" type="xs:dateTime" />
+      
+      <!-- Items -->
+      <xs:element minOccurs="0" maxOccurs="1" name="Invoices" type="ArrayOfInvoice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Contacts" type="ArrayOfContact" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxRates" type="ArrayOfTaxRate" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Accounts" type="ArrayOfAccount" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackingCategories" type="ArrayOfTrackingCategory" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Organisations" type="ArrayOfOrganisation" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CreditNotes" type="ArrayOfCreditNote" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Currencies" type="ArrayOfCurrency" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Payments" type="ArrayOfPayment" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Journals" type="ArrayOfJournal" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BrandingThemes" type="ArrayOfBrandingTheme" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Items" type="ArrayOfItem" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ManualJournals" type="ArrayOfManualJournal" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Reports" type="ArrayOfReport" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Employees" type="ArrayOfEmployee" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Attachments" type="ArrayOfAttachment" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BankTransactions" type="ArrayOfBankTransaction" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Users" type="ArrayOfUser" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Receipts" type="ArrayOfReceipt" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ExpenseClaims" type="ArrayOfExpenseClaim" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RepeatingInvoices" type="ArrayOfRepeatingInvoice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BankTransfers" type="ArrayOfBankTransfer" />
+      
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="CreditNote"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="LineItem.xsd" />
+  <xs:include schemaLocation="Contact.xsd" />
+  <xs:include schemaLocation="CurrencyCode.xsd" />
+
+  <xs:element name="CreditNotes" nillable="true" type="ArrayOfCreditNote" />
+
+  <xs:complexType name="ArrayOfCreditNote">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CreditNote" nillable="true" type="CreditNote" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="CreditNote">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+      
+      <xs:element minOccurs="0" maxOccurs="1" name="Contact" type="Contact" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Date" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DueDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BrandingThemeID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Status" type="invoiceStatus" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LineAmountTypes" nillable="true" type="lineAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LineItems" type="ArrayOfLineItem" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SubTotal" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TotalTax" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Total" nillable="true" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UpdatedDateUTC" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="currencyCode" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FullyPaidOnDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Type" type="creditNoteType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Reference" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="CreditNoteID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CreditNoteNumber" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SentToContact" type="trueOrFalse" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AppliedAmount" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CurrencyRate" type="currencyRate" />
+      
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+  
+</xs:schema>

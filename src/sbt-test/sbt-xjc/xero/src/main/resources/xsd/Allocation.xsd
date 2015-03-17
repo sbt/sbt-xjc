@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Allocation"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="CreditNote.xsd" />
+  <xs:include schemaLocation="Invoice.xsd" />
+
+  <!-- Payment against an invoice -->
+  <xs:complexType name="Allocation">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="0" maxOccurs="1" name="AppliedAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Date" type="xs:dateTime" />
+      
+      <xs:element minOccurs="0" maxOccurs="1" name="Invoice" type="Invoice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CreditNote" type="CreditNote" />
+      
+      <xs:element minOccurs="0" maxOccurs="1" name="UpdatedDateUTC" nillable="true" type="xs:dateTime" />
+      
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="ArrayOfAllocation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Allocation" nillable="true" type="Allocation" />
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>

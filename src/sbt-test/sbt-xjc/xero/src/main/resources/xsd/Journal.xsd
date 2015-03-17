@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Journal"
+    elementFormDefault="qualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:include schemaLocation="BaseTypes.xsd" />
+  <xs:include schemaLocation="Tracking.xsd" />
+  
+  <xs:element name="Journals" nillable="true" type="ArrayOfJournal" />
+
+  <!-- Journals -->
+  <xs:complexType name="ArrayOfJournal">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Journal" nillable="true" type="Journal" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Journal -->
+  <xs:complexType name="Journal">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+      
+      <xs:element minOccurs="0" maxOccurs="1" name="Reference" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="JournalID" type="uniqueIdentifier" />
+      <xs:element minOccurs="1" maxOccurs="1" name="JournalDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="1" maxOccurs="1" name="JournalNumber" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="CreatedDateUTC" nillable="true" type="xs:dateTime" />
+      
+      <xs:element minOccurs="1" maxOccurs="1" name="JournalLines" type="ArrayOfJournalLine" />
+
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+
+  <!-- Journal Lines -->
+  <xs:complexType name="ArrayOfJournalLine">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="JournalLine" nillable="false" type="JournalLine" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Journal Line -->
+  <xs:complexType name="JournalLine">
+    <xs:all>
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidationErrors" type="ArrayOfValidationError" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Warnings" type="ArrayOfWarning" />
+
+      <xs:element minOccurs="1" maxOccurs="1" name="JournalLineID" type="uniqueIdentifier" />
+      <xs:element minOccurs="1" maxOccurs="1" name="AccountID" type="uniqueIdentifier" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AccountCode" type="accountCode" />
+      <xs:element minOccurs="1" maxOccurs="1" name="AccountType" type="accountType" />
+      <xs:element minOccurs="1" maxOccurs="1" name="AccountName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Description" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="NetAmount" type="itemPrice" />
+      <xs:element minOccurs="1" maxOccurs="1" name="GrossAmount" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxAmount" type="itemPrice" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackingCategories" type="ArrayOfTrackingCategory" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxType" type="taxType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxName" type="xs:string" />
+
+    </xs:all>
+    <xs:attribute name="status" type="entityValidationStatus" use="optional" />
+  </xs:complexType>
+  
+</xs:schema>
