@@ -14,17 +14,20 @@ object SbtXjcPlugin extends AutoPlugin {
 
   override def trigger = allRequirements
 
+  object autoImport {
+    val xjc            = TaskKey[Seq[File]]("xjc", "Generate JAXB Java sources from XSD files(s)")
+    val xjcLibs        = SettingKey[Seq[ModuleID]]("xjc-libs", "Core XJC libraries")
+    val xjcPlugins     = SettingKey[Seq[ModuleID]]("xjc-plugins", "Plugins for XJC code generation")
+    val xjcCommandLine = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
+    val xjcBindings    = SettingKey[Seq[String]]("xjc-plugin-bindings", "Binding files to add to XJC.")
+  }
+  import autoImport._
+
   /** An Ivy scope for the XJC compiler */
   val XjcTool   = config("xjc-tool").hide
 
   /** An Ivy scope for XJC compiler plugins, such as the Fluent API plugin */
   val XjcPlugin = config("xjc-plugin").hide
-
-  val xjc            = TaskKey[Seq[File]]("xjc", "Generate JAXB Java sources from XSD files(s)")
-  val xjcLibs        = SettingKey[Seq[ModuleID]]("xjc-libs", "Core XJC libraries")
-  val xjcPlugins     = SettingKey[Seq[ModuleID]]("xjc-plugins", "Plugins for XJC code generation")
-  val xjcCommandLine = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
-  val xjcBindings    = SettingKey[Seq[String]]("xjc-plugin-bindings", "Binding files to add to XJC.")
 
   /** Main settings to enable XSD compilation */
     override lazy val projectSettings = Seq[Def.Setting[_]](

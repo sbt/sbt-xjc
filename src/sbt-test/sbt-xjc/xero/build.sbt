@@ -1,5 +1,3 @@
-import com.github.retronym.sbtxjc.SbtXjcPlugin
+xjcCommandLine += "-verbose"
 
-SbtXjcPlugin.xjcCommandLine += "-verbose"
-
-SbtXjcPlugin.xjcBindings += "src/main/resources/bindings.xjb"
+xjcBindings += "src/main/resources/bindings.xjb"
