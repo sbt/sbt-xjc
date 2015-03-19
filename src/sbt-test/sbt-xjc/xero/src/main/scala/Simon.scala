@@ -1,3 +1,3 @@
 object Simon {
-  import generated.Invoice
+  import com.sbt.generated.Invoice
 }
