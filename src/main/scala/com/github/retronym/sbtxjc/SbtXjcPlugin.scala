@@ -97,8 +97,7 @@ object SbtXjcPlugin extends AutoPlugin {
       }
       val appOptions = pluginCpOptions ++ Seq("-d", sourceManaged.getAbsolutePath)
       val mainClass  = "com.sun.tools.xjc.XJCFacade"
-	  val bindings = xjcBindings.map(List("-b",_)).flatten
-
+      val bindings = xjcBindings.map(List("-b",_)).flatten
       jvmCpOptions ++ List(mainClass) ++ appOptions ++ extraCommandLine ++ xsdSourcePaths ++ bindings
     }
 
