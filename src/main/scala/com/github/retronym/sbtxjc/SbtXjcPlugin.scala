@@ -59,7 +59,6 @@ object SbtXjcPlugin extends AutoPlugin {
    */
   private def xjcSettings0 = Seq[Def.Setting[_]](
     sources in xjc       <<= unmanagedResourceDirectories.map(dirs => (dirs ** "*.xsd").get),
-    sourceManaged in xjc ~= (_ / "xjc"), // e.g. /target/scala-2.8.1.final/src_managed/main/xjc
     xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
                               sourceManaged in xjc, xjcCommandLine, xjcBindings, streams).map(xjcCompile),
     sourceGenerators     <+= xjc,
