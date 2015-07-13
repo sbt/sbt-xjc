@@ -36,6 +36,10 @@ replace with `Test` to configure that scope.
     <td></td>
   </tr>
   <tr>
+    <td>xjcJvmOpts</td><td>Seq[String]</td><td></td><td>Additional JVM command line, e.g. -Djavax.xml.accessExternalSchema=file to allow compilation of schemas consisting of multiple files</td>
+    <td></td>
+  </tr>
+  <tr>
     <td>sources in (Compile, xjc)</td><td>Seq[File]</td><td>${unmanagedResourceDirectories} ** "*.xsd"</td><td>Input XSD Files</td>
     <td>sources in (Compile, xjc) &lt;&lt;= sourceDirectory map (_ / "main" / "schema" ** "*.xsd" get)
 

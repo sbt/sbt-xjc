@@ -18,6 +18,7 @@ object SbtXjcPlugin extends AutoPlugin {
     val xjc            = TaskKey[Seq[File]]("xjc", "Generate JAXB Java sources from XSD files(s)")
     val xjcLibs        = SettingKey[Seq[ModuleID]]("xjc-libs", "Core XJC libraries")
     val xjcPlugins     = SettingKey[Seq[ModuleID]]("xjc-plugins", "Plugins for XJC code generation")
+    val xjcJvmOpts     = SettingKey[Seq[String]]("xjc-jvm-opts", "Extra command line parameters to the JVM XJC runs in.")
     val xjcCommandLine = SettingKey[Seq[String]]("xjc-plugin-command-line", "Extra command line parameters to XJC. Can be used to enable a plugin.")
     val xjcBindings    = SettingKey[Seq[String]]("xjc-plugin-bindings", "Binding files to add to XJC.")
   }
@@ -33,6 +34,7 @@ object SbtXjcPlugin extends AutoPlugin {
     override lazy val projectSettings = Seq[Def.Setting[_]](
     ivyConfigurations ++= Seq(XjcTool, XjcPlugin),
     xjcCommandLine    := Seq(),
+    xjcJvmOpts        := Seq(),
     xjcBindings       := Seq(),
     xjcPlugins        := Seq(),
     xjcLibs           := Seq(
@@ -60,7 +62,7 @@ object SbtXjcPlugin extends AutoPlugin {
   private def xjcSettings0 = Seq[Def.Setting[_]](
     sources in xjc       <<= unmanagedResourceDirectories.map(dirs => (dirs ** "*.xsd").get),
     xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
-                              sourceManaged in xjc, xjcCommandLine, xjcBindings, streams).map(xjcCompile),
+                              sourceManaged in xjc, xjcCommandLine, xjcJvmOpts, xjcBindings, streams).map(xjcCompile),
     sourceGenerators     <+= xjc,
     clean in xjc         <<= (sourceManaged in xjc, streams).map(xjcClean)
   )
@@ -69,8 +71,8 @@ object SbtXjcPlugin extends AutoPlugin {
    * @return the .java files in `sourceManaged` after compilation.
    */
   private def xjcCompile(javaHome: Option[File], classpathTypes: Set[String], updateReport: UpdateReport,
-                         xjcSources: Seq[File], sourceManaged: File, extraCommandLine: Seq[String], 
-						 xjcBindings: Seq[String], streams: TaskStreams): Seq[File] = {
+                         xjcSources: Seq[File], sourceManaged: File, extraCommandLine: Seq[String], xjcJvmOpts: Seq[String],
+                         xjcBindings: Seq[String], streams: TaskStreams): Seq[File] = {
     import streams.log
     def generated = (sourceManaged ** "*.java").get
 
@@ -97,7 +99,7 @@ object SbtXjcPlugin extends AutoPlugin {
       val appOptions = pluginCpOptions ++ Seq("-d", sourceManaged.getAbsolutePath)
       val mainClass  = "com.sun.tools.xjc.XJCFacade"
       val bindings = xjcBindings.map(List("-b",_)).flatten
-      jvmCpOptions ++ List(mainClass) ++ appOptions ++ extraCommandLine ++ xsdSourcePaths ++ bindings
+      jvmCpOptions ++ xjcJvmOpts ++ List(mainClass) ++ appOptions ++ extraCommandLine ++ xsdSourcePaths ++ bindings
     }
 
     if (shouldProcess) {
