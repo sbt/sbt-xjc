@@ -1,14 +1,18 @@
 import sbt._
 import Keys._
+import bintray._
 
 val sbtXjc = Project(
   id = "sbt-xjc",
   base = file("."),
   settings = Defaults.defaultSettings ++ Seq(
+    licenses += ("BSD 3-Clause", url("http://opensource.org/licenses/BSD-3-Clause")),
     organization := "org.scala-sbt.plugins",
     version := "0.8-SNAPSHOT",
     sbtPlugin := true,
-    publishTo := Some(Resolver.url("sbt-plugin-releases-publish", new URL("http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns)),
-    publishMavenStyle := false
+    publishMavenStyle := false,
+    bintrayOrganization := Some("sbt"),
+    bintrayRepository := "sbt-plugin-releases",
+    bintrayPackage := "sbt-xjc-imported"
   ) ++ ScriptedPlugin.scriptedSettings
 )
