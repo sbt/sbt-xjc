@@ -1,1 +1,2 @@
-addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.5.2")
+addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
+
