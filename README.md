@@ -51,7 +51,7 @@ replace with `Test` to configure that scope.
   </tr>
 </table>
 
-See the [Tests](https://github.com/retronym/sbt-xjc/tree/master/src/sbt-test/sbt-xjc) for example builds.
+See the [Tests](https://github.com/sbt/sbt-xjc/tree/master/src/sbt-test/sbt-xjc) for example builds.
 
 As a convenience, the fluent API settings are provided in `SbtXjcPlugin.fluentApiSettings`
 
