@@ -51,7 +51,13 @@ replace with `Test` to configure that scope.
   </tr>
 </table>
 
-See the [Tests](https://github.com/sbt/sbt-xjc/tree/master/src/sbt-test/sbt-xjc) for example builds.
+Example `build.sbt` files from the tests:
+
+* [Simple](./blob/master/src/sbt-test/sbt-xjc/simple/build.sbt)
+* [Fluent API](./blob/master/src/sbt-test/sbt-xjc/fluent/build.sbt)
+* [JAXB bindings](./blob/master/src/sbt-test/sbt-xjc/xero/build.sbt)
+
+Other samples may appear in [Tests](./tree/master/src/sbt-test/sbt-xjc) for example builds.
 
 As a convenience, the fluent API settings are provided in `SbtXjcPlugin.fluentApiSettings`
 
