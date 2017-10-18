@@ -1,5 +1,13 @@
 ## sbt-xjc An SBT Plugin to compile XML Schemata to JAXB Java sources with XJC
 
+[JAXB - Java Architecture for XML Binding](https://javaee.github.io/jaxb-v2/)
+
+[XJC documentation](https://javaee.github.io/jaxb-v2/doc/user-guide/ch04.html#tools-xjc)
+
+XJC plugins
+* [JAXB2 Commons](https://github.com/javaee/jaxb2-commons) 
+* [JAXB XJC extended contract generation](https://mklemm.github.io/jaxb2-rich-contract-plugin/)
+
 ### Usage
 
 Depend on the plugin: `./project/plugins.sbt`. Requires SBT 0.12.x or 0.13.x
@@ -19,7 +27,7 @@ replace with `Test` to configure that scope.
     <th>Key</th><th>Type</th><th>Default</th><th>Description</th><th>Example</th>
   </tr>
   <tr>
-    <td>xjcLibs</td><td>Seq[ModuleId]</td><td>jaxb-api 2.1, jaxb-impl and jaxb-xjc 2.1.9</td>
+    <td>xjcLibs</td><td>Seq[ModuleId]</td><td>jaxb-api 2.1, jaxb-impl and jaxb-xjc 2.1.11</td>
     <td>The artifacts to download to run XJC</td>
     <td></td>
   </tr>
