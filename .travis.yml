@@ -1,11 +1,5 @@
 language: scala
 sudo: false
-# apparently the hosts file needs to be prefilled
-# https://github.com/travis-ci/travis-ci/issues/5227#issuecomment-165131913
-addons:
-  hosts:
-    - myshorthost
-  hostname: myshorthost
 
 cache:
   directories:
@@ -20,7 +14,7 @@ matrix:
   include:
   - env: SBT_VERSION="0.13.16"
     jdk: openjdk7
-  - env: SBT_VERSION="1.0.2"
+  - env: SBT_VERSION="1.0.3"
     jdk: oraclejdk8
 script:
 - sbt "^^${SBT_VERSION}" test scripted
