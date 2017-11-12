@@ -6,6 +6,6 @@ import sbt.{Fork, ForkOptions, Logger}
 
 object Forker {
   def apply(javaHome: Option[File], options: Seq[String], log: Logger): Int = {
-    new Fork("java", None).apply(new ForkOptions(javaHome = javaHome), options)
+    new Fork("java", None).apply(ForkOptions().withJavaHome(javaHome), options)
   }
 }

@@ -2,10 +2,10 @@
 
 ### Usage
 
-Depend on the plugin: `./project/plugins.sbt`. Requires SBT 0.12.x or 0.13.x
+Depend on the plugin: `./project/plugins.sbt`. Requires sbt 0.13.x or sbt 1.0.x
 
 ```
-addSbtPlugin("org.scala-sbt.plugins" % "sbt-xjc" % "0.8")
+addSbtPlugin("org.scala-sbt.plugins" % "sbt-xjc" % "0.9")
 ```
 
 ### Configure

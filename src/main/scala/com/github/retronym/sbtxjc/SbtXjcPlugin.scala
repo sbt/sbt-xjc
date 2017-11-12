@@ -41,8 +41,8 @@ object SbtXjcPlugin extends AutoPlugin {
       "org.glassfish.jaxb" % "jaxb-xjc"  % "2.2.11",
       "com.sun.xml.bind"   % "jaxb-impl" % "2.2.11"
     ),
-    libraryDependencies <++= (xjcLibs)(_.map(_ % XjcTool.name)),
-    libraryDependencies <++= (xjcPlugins)(_.map(_ % XjcPlugin.name))
+    libraryDependencies ++= xjcLibs.value.map(_ % XjcTool.name),
+    libraryDependencies ++= xjcPlugins.value.map(_ % XjcPlugin.name)
   ) ++ xjcSettingsIn(Compile) ++ xjcSettingsIn(Test)
 
   /** Settings to enable the Fluent API plugin, that provides `withXxx` methods, in addition to `getXxx` and `setXxx`
@@ -54,17 +54,17 @@ object SbtXjcPlugin extends AutoPlugin {
   )
 
   def xjcSettingsIn(conf: Configuration): Seq[Def.Setting[_]] =
-    inConfig(conf)(xjcSettings0) ++ Seq(clean <<= clean.dependsOn(clean in xjc in conf))
+    inConfig(conf)(xjcSettings0) ++ Seq(clean := clean.dependsOn(clean in xjc in conf).value)
 
   /**
    * Unscoped settings, do not use directly, instead use `xjcSettingsIn(IntegrationTest)`
    */
   private def xjcSettings0 = Seq[Def.Setting[_]](
-    sources in xjc       <<= unmanagedResourceDirectories.map(dirs => (dirs ** "*.xsd").get),
-    xjc                  <<= (javaHome, classpathTypes in xjc, update, sources in xjc,
-                              sourceManaged in xjc, xjcCommandLine, xjcJvmOpts, xjcBindings, streams).map(xjcCompile),
-    sourceGenerators     <+= xjc,
-    clean in xjc         <<= (sourceManaged in xjc, streams).map(xjcClean)
+    sources in xjc       := unmanagedResourceDirectories.value.flatMap(dirs => (dirs ** "*.xsd").get),
+    xjc                  := xjcCompile(javaHome.value, (classpathTypes in xjc).value, update.value, (sources in xjc).value,
+                              (sourceManaged in xjc).value, xjcCommandLine.value, xjcJvmOpts.value, xjcBindings.value, streams.value),
+    sourceGenerators     += xjc,
+    clean in xjc         := xjcClean((sourceManaged in xjc).value, streams.value)
   )
 
   /**
