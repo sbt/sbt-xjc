@@ -53,11 +53,11 @@ replace with `Test` to configure that scope.
 
 Example `build.sbt` files from the tests:
 
-* [Simple](./blob/master/src/sbt-test/sbt-xjc/simple/build.sbt)
-* [Fluent API](./blob/master/src/sbt-test/sbt-xjc/fluent/build.sbt)
-* [JAXB bindings](./blob/master/src/sbt-test/sbt-xjc/xero/build.sbt)
+* [Simple](./src/sbt-test/sbt-xjc/simple/build.sbt)
+* [Fluent API](./src/sbt-test/sbt-xjc/fluent/build.sbt)
+* [JAXB bindings](./src/sbt-test/sbt-xjc/xero/build.sbt)
 
-Other samples may appear in [Tests](./tree/master/src/sbt-test/sbt-xjc) for example builds.
+Other samples may appear in [Tests](./src/sbt-test/sbt-xjc) for example builds.
 
 As a convenience, the fluent API settings are provided in `SbtXjcPlugin.fluentApiSettings`
 
