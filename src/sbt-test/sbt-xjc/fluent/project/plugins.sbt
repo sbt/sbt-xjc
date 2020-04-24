@@ -1,7 +1,5 @@
-{
-  val pluginVersion = System.getProperty("plugin.version")
-  if(pluginVersion == null)
-    throw new RuntimeException("""|The system property 'plugin.version' is not defined.
-                                  |Specify this property using the scriptedLaunchOpts -D.""".stripMargin)
-  else addSbtPlugin("org.scala-sbt.plugins" % "sbt-xjc" % pluginVersion)
+sys.props.get("plugin.version") match {
+  case Some(x) => addSbtPlugin("org.scala-sbt.plugins" % "sbt-xjc" % x)
+  case _ => sys.error("""|The system property 'plugin.version' is not defined.
+                         |Specify this property using the scriptedLaunchOpts -D.""".stripMargin)
 }

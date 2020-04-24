@@ -61,10 +61,12 @@ object SbtXjcPlugin extends AutoPlugin {
    */
   private def xjcSettings0 = Seq[Def.Setting[_]](
     sources in xjc       := unmanagedResourceDirectories.value.flatMap(dirs => (dirs ** "*.xsd").get),
+    sourceManaged in xjc := crossTarget.value / "src_managed_cxf", // This directory structure was recommended in https://github.com/sbt/sbt/issues/1664#issuecomment-213057686
     xjc                  := xjcCompile(javaHome.value, (classpathTypes in xjc).value, update.value, (sources in xjc).value,
-                              (sourceManaged in xjc).value, xjcCommandLine.value, xjcJvmOpts.value, xjcBindings.value, streams.value),
+                             (sourceManaged in xjc).value, xjcCommandLine.value, xjcJvmOpts.value, xjcBindings.value, streams.value),
     sourceGenerators     += xjc,
-    clean in xjc         := xjcClean((sourceManaged in xjc).value, streams.value)
+    clean in xjc         := xjcClean((sourceManaged in xjc).value, streams.value),
+    managedSourceDirectories in Compile += (sourceManaged in xjc).value
   )
 
   /**
