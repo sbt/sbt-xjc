@@ -7,7 +7,7 @@ lazy val sbtXjc = (project in file("."))
   .settings(
     organization := "org.scala-sbt.plugins",
     name := "sbt-xjc",
-    version := "0.10-SNAPSHOT",
+    version := "0.10",
 
     sbtPlugin := true,
 
