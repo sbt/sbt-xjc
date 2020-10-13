@@ -39,7 +39,8 @@ object SbtXjcPlugin extends AutoPlugin {
     xjcPlugins        := Seq(),
     xjcLibs           := Seq(
       "org.glassfish.jaxb" % "jaxb-xjc"  % "2.2.11",
-      "com.sun.xml.bind"   % "jaxb-impl" % "2.2.11"
+      "com.sun.xml.bind"   % "jaxb-impl" % "2.2.11",
+      "javax.activation" % "activation" % "1.1.1"
     ),
     libraryDependencies ++= xjcLibs.value.map(_ % XjcTool.name),
     libraryDependencies ++= xjcPlugins.value.map(_ % XjcPlugin.name)
