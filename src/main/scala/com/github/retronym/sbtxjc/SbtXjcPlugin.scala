@@ -38,19 +38,17 @@ object SbtXjcPlugin extends AutoPlugin {
     xjcBindings       := Seq(),
     xjcPlugins        := Seq(),
     xjcLibs           := Seq(
-      "org.glassfish.jaxb" % "jaxb-xjc"  % "2.2.11",
-      "com.sun.xml.bind"   % "jaxb-impl" % "2.2.11",
-      "javax.activation"   % "activation" % "1.1.1"
+      "org.glassfish.jaxb" % "jaxb-xjc"  % "3.0.2",
+      "org.glassfish.jaxb" % "jaxb-runtime" % "3.0.2",
     ),
     libraryDependencies ++= xjcLibs.value.map(_ % XjcTool.name),
     libraryDependencies ++= xjcPlugins.value.map(_ % XjcPlugin.name)
   ) ++ xjcSettingsIn(Compile) ++ xjcSettingsIn(Test)
 
   /** Settings to enable the Fluent API plugin, that provides `withXxx` methods, in addition to `getXxx` and `setXxx`
-   *  Requires this resolver http://download.java.net/maven/2/
    **/
   val fluentApiSettings = Seq[Def.Setting[_]](
-    xjcPlugins     += "net.java.dev.jaxb2-commons" % "jaxb-fluent-api" % "2.1.8",
+    xjcPlugins     += "com.evolvedbinary.thirdparty.org.jvnet.jaxb3_commons" % "jaxb3-fluent-api" % "3.0.2",
     xjcCommandLine += "-Xfluent-api"
   )
 
