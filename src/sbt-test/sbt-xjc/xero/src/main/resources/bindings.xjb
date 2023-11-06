@@ -1,5 +1,5 @@
-<jaxb:bindings version="2.1" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+<jaxb:bindings version="3.0" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xjc="https://jakarta.ee/xml/ns/jaxb/xjc" xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:com.fnf="http://www.fnf.com/xes">
 
   <!-- Status attribute and element collision -->
